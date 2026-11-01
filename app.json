@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "Stitch & Snuggle",
+    "slug": "stitch-snuggle",
+    "version": "0.1.0",
+    "orientation": "landscape",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#FFF4E6",
+    "ios": {
+      "bundleIdentifier": "com.desmacapps.stitchsnuggle",
+      "supportsTablet": true,
+      "requireFullScreen": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "plugins": [
+      [
+        "expo-audio",
+        {
+          "microphonePermission": false,
+          "enableBackgroundPlayback": false,
+          "recordAudioAndroid": false
+        }
+      ],
+      "expo-screen-orientation"
+    ]
+  }
+}

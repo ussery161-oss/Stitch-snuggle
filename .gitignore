@@ -1,0 +1,11 @@
+node_modules/
+.expo/
+dist/
+web-build/
+ios/
+android/
+artifacts/
+*.log
+.DS_Store
+# Mike's local backup copies of prompt files
+*.bak
