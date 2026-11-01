@@ -4,9 +4,9 @@ Driven by `docs/prompts/CONTINUOUS_BUILD.md`. ☐ not started · ▶ in progress
 ## Phase 1 — `p1-core` (scaffold, renderer, clinic)
 | Section | Status | Commit |
 |---|---|---|
-| A. Scaffold | ✅ | (this commit) |
-| B. Guard tests | ☐ | |
-| C. Shell, nav, home, gate | ☐ | |
+| A. Scaffold | ✅ | 3f5761d |
+| B. Guard tests | ✅ | 15c2d28 |
+| C. Shell, nav, home, gate | ✅ | (this commit) |
 | D. Audio | ☐ | |
 | E. Plush renderer | ☐ | |
 | F. Clinic, Stitch, Wash | ☐ | |
@@ -28,4 +28,4 @@ Driven by `docs/prompts/CONTINUOUS_BUILD.md`. ☐ not started · ▶ in progress
 - Phase 1: https://github.com/ussery161-oss/Stitch-snuggle/compare/main...p1-core
 
 ## Next
-P1-B guard tests.
+P1-D audio (AudioService, voiceLookup).
