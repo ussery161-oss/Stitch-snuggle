@@ -1,0 +1,184 @@
+{
+ "canvas": [
+  1024,
+  1024
+ ],
+ "base": "unicorn",
+ "body": "round",
+ "units": "px, origin top-left",
+ "z_order": [
+  "tailHair",
+  "legL",
+  "legR",
+  "body",
+  "belly",
+  "armL",
+  "armR",
+  "earL",
+  "earR",
+  "earInnerL",
+  "earInnerR",
+  "head",
+  "mane",
+  "muzzle",
+  "nose",
+  "horn"
+ ],
+ "tint_groups": null,
+ "head": [
+  512,
+  359
+ ],
+ "neck": [
+  512,
+  554
+ ],
+ "chest": [
+  512,
+  643
+ ],
+ "eyeL": [
+  421,
+  354
+ ],
+ "eyeR": [
+  603,
+  354
+ ],
+ "mouth": [
+  512,
+  499
+ ],
+ "handL": [
+  310,
+  684
+ ],
+ "handR": [
+  714,
+  684
+ ],
+ "footL": [
+  403,
+  912
+ ],
+ "footR": [
+  621,
+  912
+ ],
+ "accessory": {
+  "hat_top": [
+   512,
+   113
+  ],
+  "bow_ear": [
+   651,
+   192
+  ],
+  "glasses": [
+   512,
+   354
+  ],
+  "neckwear": [
+   512,
+   554
+  ],
+  "cape": [
+   512,
+   550
+  ],
+  "waist": [
+   512,
+   768
+  ]
+ },
+ "damage_spots": [
+  {
+   "id": "rip_armL",
+   "part": "armL",
+   "xy": [
+    310,
+    684
+   ],
+   "types": [
+    "rip",
+    "dirt"
+   ]
+  },
+  {
+   "id": "rip_legR",
+   "part": "legR",
+   "xy": [
+    621,
+    912
+   ],
+   "types": [
+    "rip",
+    "dirt"
+   ]
+  },
+  {
+   "id": "hole_belly",
+   "part": "belly",
+   "xy": [
+    545,
+    757
+   ],
+   "types": [
+    "hole",
+    "dirt"
+   ]
+  },
+  {
+   "id": "rip_head",
+   "part": "head",
+   "xy": [
+    640,
+    285
+   ],
+   "types": [
+    "rip",
+    "tangle"
+   ]
+  },
+  {
+   "id": "dirt_body",
+   "part": "body",
+   "xy": [
+    390,
+    799
+   ],
+   "types": [
+    "dirt",
+    "tangle"
+   ]
+  },
+  {
+   "id": "rip_earL",
+   "part": "earL",
+   "xy": [
+    384,
+    180
+   ],
+   "types": [
+    "rip"
+   ]
+  },
+  {
+   "id": "tangle_tailHair",
+   "part": "tailHair",
+   "xy": [
+    721,
+    820
+   ],
+   "types": [
+    "tangle",
+    "dirt"
+   ]
+  }
+ ],
+ "stuffing_droop": "code",
+ "fit": {
+  "scale": 1.1622,
+  "note": "r03 reframed: plush bbox ~960px on 1024 canvas, centred; line widths compensated to stay 14px"
+ }
+}

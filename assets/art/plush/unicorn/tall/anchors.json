@@ -1,0 +1,184 @@
+{
+ "canvas": [
+  1024,
+  1024
+ ],
+ "base": "unicorn",
+ "body": "tall",
+ "units": "px, origin top-left",
+ "z_order": [
+  "tailHair",
+  "legL",
+  "legR",
+  "body",
+  "belly",
+  "armL",
+  "armR",
+  "earL",
+  "earR",
+  "earInnerL",
+  "earInnerR",
+  "head",
+  "mane",
+  "muzzle",
+  "nose",
+  "horn"
+ ],
+ "tint_groups": null,
+ "head": [
+  512,
+  286
+ ],
+ "neck": [
+  512,
+  434
+ ],
+ "chest": [
+  512,
+  556
+ ],
+ "eyeL": [
+  442,
+  282
+ ],
+ "eyeR": [
+  581,
+  282
+ ],
+ "mouth": [
+  512,
+  394
+ ],
+ "handL": [
+  356,
+  599
+ ],
+ "handR": [
+  668,
+  599
+ ],
+ "footL": [
+  439,
+  912
+ ],
+ "footR": [
+  585,
+  912
+ ],
+ "accessory": {
+  "hat_top": [
+   512,
+   99
+  ],
+  "bow_ear": [
+   618,
+   159
+  ],
+  "glasses": [
+   512,
+   282
+  ],
+  "neckwear": [
+   512,
+   434
+  ],
+  "cape": [
+   512,
+   449
+  ],
+  "waist": [
+   512,
+   700
+  ]
+ },
+ "damage_spots": [
+  {
+   "id": "rip_armL",
+   "part": "armL",
+   "xy": [
+    356,
+    599
+   ],
+   "types": [
+    "rip",
+    "dirt"
+   ]
+  },
+  {
+   "id": "rip_legR",
+   "part": "legR",
+   "xy": [
+    585,
+    912
+   ],
+   "types": [
+    "rip",
+    "dirt"
+   ]
+  },
+  {
+   "id": "hole_belly",
+   "part": "belly",
+   "xy": [
+    535,
+    689
+   ],
+   "types": [
+    "hole",
+    "dirt"
+   ]
+  },
+  {
+   "id": "rip_head",
+   "part": "head",
+   "xy": [
+    609,
+    230
+   ],
+   "types": [
+    "rip",
+    "tangle"
+   ]
+  },
+  {
+   "id": "dirt_body",
+   "part": "body",
+   "xy": [
+    425,
+    737
+   ],
+   "types": [
+    "dirt",
+    "tangle"
+   ]
+  },
+  {
+   "id": "rip_earL",
+   "part": "earL",
+   "xy": [
+    414,
+    150
+   ],
+   "types": [
+    "rip"
+   ]
+  },
+  {
+   "id": "tangle_tailHair",
+   "part": "tailHair",
+   "xy": [
+    660,
+    761
+   ],
+   "types": [
+    "tangle",
+    "dirt"
+   ]
+  }
+ ],
+ "stuffing_droop": "code",
+ "fit": {
+  "scale": 1.0423,
+  "note": "r03 reframed: plush bbox ~960px on 1024 canvas, centred; line widths compensated to stay 14px"
+ }
+}

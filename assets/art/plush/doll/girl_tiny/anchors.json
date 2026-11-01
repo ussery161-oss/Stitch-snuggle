@@ -1,0 +1,200 @@
+{
+ "canvas": [
+  1024,
+  1024
+ ],
+ "base": "doll",
+ "body": "girl_tiny",
+ "units": "px, origin top-left",
+ "z_order": [
+  "hair_back",
+  "legL",
+  "legR",
+  "body",
+  "belly",
+  "armL",
+  "armR",
+  "earL",
+  "earR",
+  "head",
+  "face",
+  "hair_front",
+  "nose"
+ ],
+ "tint_groups": {
+  "skin": [
+   "head",
+   "face",
+   "earL",
+   "earR",
+   "armL",
+   "armR"
+  ],
+  "hair": [
+   "hair_back",
+   "hair_front"
+  ],
+  "outfit": [
+   "body",
+   "belly",
+   "legL",
+   "legR"
+  ]
+ },
+ "head": [
+  512,
+  366
+ ],
+ "neck": [
+  512,
+  602
+ ],
+ "chest": [
+  512,
+  715
+ ],
+ "eyeL": [
+  403,
+  396
+ ],
+ "eyeR": [
+  620,
+  396
+ ],
+ "mouth": [
+  512,
+  478
+ ],
+ "handL": [
+  351,
+  763
+ ],
+ "handR": [
+  673,
+  763
+ ],
+ "footL": [
+  425,
+  924
+ ],
+ "footR": [
+  599,
+  924
+ ],
+ "accessory": {
+  "hat_top": [
+   512,
+   131
+  ],
+  "bow_ear": [
+   683,
+   168
+  ],
+  "glasses": [
+   512,
+   396
+  ],
+  "neckwear": [
+   512,
+   602
+  ],
+  "cape": [
+   512,
+   645
+  ],
+  "waist": [
+   512,
+   807
+  ]
+ },
+ "damage_spots": [
+  {
+   "id": "rip_armL",
+   "part": "armL",
+   "xy": [
+    351,
+    763
+   ],
+   "types": [
+    "rip",
+    "dirt"
+   ]
+  },
+  {
+   "id": "rip_legR",
+   "part": "legR",
+   "xy": [
+    599,
+    924
+   ],
+   "types": [
+    "rip",
+    "dirt"
+   ]
+  },
+  {
+   "id": "hole_belly",
+   "part": "belly",
+   "xy": [
+    538,
+    745
+   ],
+   "types": [
+    "hole",
+    "dirt"
+   ]
+  },
+  {
+   "id": "rip_head",
+   "part": "head",
+   "xy": [
+    668,
+    280
+   ],
+   "types": [
+    "rip",
+    "tangle"
+   ]
+  },
+  {
+   "id": "dirt_body",
+   "part": "body",
+   "xy": [
+    417,
+    831
+   ],
+   "types": [
+    "dirt",
+    "tangle"
+   ]
+  },
+  {
+   "id": "rip_earL",
+   "part": "earL",
+   "xy": [
+    235,
+    386
+   ],
+   "types": [
+    "rip"
+   ]
+  },
+  {
+   "id": "tangle_hair_back",
+   "part": "hair_back",
+   "xy": [
+    512,
+    366
+   ],
+   "types": [
+    "tangle",
+    "dirt"
+   ]
+  }
+ ],
+ "stuffing_droop": "code",
+ "fit": {
+  "scale": 1.2387,
+  "note": "r03 reframed: plush bbox ~960px on 1024 canvas, centred; line widths compensated to stay 14px"
+ }
+}

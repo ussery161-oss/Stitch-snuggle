@@ -1,0 +1,138 @@
+{
+ "bow_1": {
+  "reg": [
+   256,
+   256
+  ],
+  "anchor": "bow_ear",
+  "note": "place reg px on the plush anchor"
+ },
+ "bow_2": {
+  "reg": [
+   256,
+   256
+  ],
+  "anchor": "bow_ear",
+  "note": "place reg px on the plush anchor"
+ },
+ "bow_3": {
+  "reg": [
+   256,
+   256
+  ],
+  "anchor": "bow_ear",
+  "note": "place reg px on the plush anchor"
+ },
+ "hat_party": {
+  "reg": [
+   256,
+   430
+  ],
+  "anchor": "hat_top",
+  "note": "place reg px on the plush anchor"
+ },
+ "hat_sun": {
+  "reg": [
+   256,
+   390
+  ],
+  "anchor": "hat_top",
+  "note": "place reg px on the plush anchor"
+ },
+ "hat_crown": {
+  "reg": [
+   256,
+   404
+  ],
+  "anchor": "hat_top",
+  "note": "place reg px on the plush anchor"
+ },
+ "hat_beanie": {
+  "reg": [
+   256,
+   425
+  ],
+  "anchor": "hat_top",
+  "note": "place reg px on the plush anchor"
+ },
+ "glasses_round": {
+  "reg": [
+   256,
+   256
+  ],
+  "anchor": "glasses",
+  "note": "place reg px on the plush anchor"
+ },
+ "glasses_heart": {
+  "reg": [
+   256,
+   256
+  ],
+  "anchor": "glasses",
+  "note": "place reg px on the plush anchor"
+ },
+ "scarf_1": {
+  "reg": [
+   256,
+   190
+  ],
+  "anchor": "neckwear",
+  "note": "place reg px on the plush anchor"
+ },
+ "scarf_2": {
+  "reg": [
+   256,
+   190
+  ],
+  "anchor": "neckwear",
+  "note": "place reg px on the plush anchor"
+ },
+ "flower": {
+  "reg": [
+   256,
+   256
+  ],
+  "anchor": "bow_ear",
+  "note": "place reg px on the plush anchor"
+ },
+ "bandana": {
+  "reg": [
+   256,
+   165
+  ],
+  "anchor": "neckwear",
+  "note": "place reg px on the plush anchor"
+ },
+ "heart_patch": {
+  "reg": [
+   256,
+   256
+  ],
+  "anchor": "chest",
+  "note": "place reg px on the plush anchor"
+ },
+ "cape_small": {
+  "reg": [
+   256,
+   100
+  ],
+  "anchor": "cape",
+  "note": "place reg px on the plush anchor"
+ },
+ "tutu": {
+  "reg": [
+   256,
+   203
+  ],
+  "anchor": "waist",
+  "note": "place reg px on the plush anchor"
+ },
+ "bow_tie": {
+  "reg": [
+   256,
+   256
+  ],
+  "anchor": "neckwear",
+  "note": "place reg px on the plush anchor"
+ }
+}

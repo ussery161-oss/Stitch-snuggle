@@ -1,0 +1,182 @@
+{
+ "canvas": [
+  1024,
+  1024
+ ],
+ "base": "bear",
+ "body": "tall",
+ "units": "px, origin top-left",
+ "z_order": [
+  "tail",
+  "legL",
+  "legR",
+  "body",
+  "belly",
+  "armL",
+  "armR",
+  "earL",
+  "earR",
+  "earInnerL",
+  "earInnerR",
+  "head",
+  "muzzle",
+  "nose"
+ ],
+ "tint_groups": null,
+ "head": [
+  512,
+  257
+ ],
+ "neck": [
+  512,
+  411
+ ],
+ "chest": [
+  512,
+  538
+ ],
+ "eyeL": [
+  439,
+  242
+ ],
+ "eyeR": [
+  584,
+  242
+ ],
+ "mouth": [
+  512,
+  347
+ ],
+ "handL": [
+  349,
+  583
+ ],
+ "handR": [
+  675,
+  583
+ ],
+ "footL": [
+  436,
+  908
+ ],
+ "footR": [
+  588,
+  908
+ ],
+ "accessory": {
+  "hat_top": [
+   512,
+   99
+  ],
+  "bow_ear": [
+   623,
+   124
+  ],
+  "glasses": [
+   512,
+   242
+  ],
+  "neckwear": [
+   512,
+   411
+  ],
+  "cape": [
+   512,
+   426
+  ],
+  "waist": [
+   512,
+   688
+  ]
+ },
+ "damage_spots": [
+  {
+   "id": "rip_armL",
+   "part": "armL",
+   "xy": [
+    349,
+    583
+   ],
+   "types": [
+    "rip",
+    "dirt"
+   ]
+  },
+  {
+   "id": "rip_legR",
+   "part": "legR",
+   "xy": [
+    588,
+    908
+   ],
+   "types": [
+    "rip",
+    "dirt"
+   ]
+  },
+  {
+   "id": "hole_belly",
+   "part": "belly",
+   "xy": [
+    536,
+    676
+   ],
+   "types": [
+    "hole",
+    "dirt"
+   ]
+  },
+  {
+   "id": "rip_head",
+   "part": "head",
+   "xy": [
+    613,
+    198
+   ],
+   "types": [
+    "rip",
+    "tangle"
+   ]
+  },
+  {
+   "id": "dirt_body",
+   "part": "body",
+   "xy": [
+    422,
+    726
+   ],
+   "types": [
+    "dirt",
+    "tangle"
+   ]
+  },
+  {
+   "id": "rip_earL",
+   "part": "earL",
+   "xy": [
+    368,
+    105
+   ],
+   "types": [
+    "rip"
+   ]
+  },
+  {
+   "id": "tangle_tail",
+   "part": "tail",
+   "xy": [
+    630,
+    765
+   ],
+   "types": [
+    "tangle",
+    "dirt"
+   ]
+  }
+ ],
+ "stuffing_droop": "code",
+ "fit": {
+  "scale": 1.086,
+  "note": "r03 reframed: plush bbox ~960px on 1024 canvas, centred; line widths compensated to stay 14px"
+ }
+}

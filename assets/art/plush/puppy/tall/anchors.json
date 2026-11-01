@@ -1,0 +1,180 @@
+{
+ "canvas": [
+  1024,
+  1024
+ ],
+ "base": "puppy",
+ "body": "tall",
+ "units": "px, origin top-left",
+ "z_order": [
+  "tail",
+  "legL",
+  "legR",
+  "body",
+  "belly",
+  "armL",
+  "armR",
+  "head",
+  "earL",
+  "earR",
+  "muzzle",
+  "nose"
+ ],
+ "tint_groups": null,
+ "head": [
+  512,
+  215
+ ],
+ "neck": [
+  512,
+  378
+ ],
+ "chest": [
+  512,
+  512
+ ],
+ "eyeL": [
+  435,
+  203
+ ],
+ "eyeR": [
+  588,
+  203
+ ],
+ "mouth": [
+  512,
+  320
+ ],
+ "handL": [
+  340,
+  559
+ ],
+ "handR": [
+  684,
+  559
+ ],
+ "footL": [
+  432,
+  904
+ ],
+ "footR": [
+  592,
+  904
+ ],
+ "accessory": {
+  "hat_top": [
+   512,
+   48
+  ],
+  "bow_ear": [
+   629,
+   74
+  ],
+  "glasses": [
+   512,
+   203
+  ],
+  "neckwear": [
+   512,
+   378
+  ],
+  "cape": [
+   512,
+   394
+  ],
+  "waist": [
+   512,
+   670
+  ]
+ },
+ "damage_spots": [
+  {
+   "id": "rip_armL",
+   "part": "armL",
+   "xy": [
+    340,
+    559
+   ],
+   "types": [
+    "rip",
+    "dirt"
+   ]
+  },
+  {
+   "id": "rip_legR",
+   "part": "legR",
+   "xy": [
+    592,
+    904
+   ],
+   "types": [
+    "rip",
+    "dirt"
+   ]
+  },
+  {
+   "id": "hole_belly",
+   "part": "belly",
+   "xy": [
+    537,
+    658
+   ],
+   "types": [
+    "hole",
+    "dirt"
+   ]
+  },
+  {
+   "id": "rip_head",
+   "part": "head",
+   "xy": [
+    619,
+    153
+   ],
+   "types": [
+    "rip",
+    "tangle"
+   ]
+  },
+  {
+   "id": "dirt_body",
+   "part": "body",
+   "xy": [
+    417,
+    711
+   ],
+   "types": [
+    "dirt",
+    "tangle"
+   ]
+  },
+  {
+   "id": "rip_earL",
+   "part": "earL",
+   "xy": [
+    332,
+    223
+   ],
+   "types": [
+    "rip"
+   ]
+  },
+  {
+   "id": "tangle_tail",
+   "part": "tail",
+   "xy": [
+    658,
+    631
+   ],
+   "types": [
+    "tangle",
+    "dirt"
+   ]
+  }
+ ],
+ "stuffing_droop": "code",
+ "fit": {
+  "scale": 1.1483,
+  "note": "r03 reframed: plush bbox ~960px on 1024 canvas, centred; line widths compensated to stay 14px"
+ }
+}

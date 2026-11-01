@@ -1,0 +1,182 @@
+{
+ "canvas": [
+  1024,
+  1024
+ ],
+ "base": "bunny",
+ "body": "round",
+ "units": "px, origin top-left",
+ "z_order": [
+  "tail",
+  "legL",
+  "legR",
+  "body",
+  "belly",
+  "armL",
+  "armR",
+  "earL",
+  "earR",
+  "earInnerL",
+  "earInnerR",
+  "head",
+  "muzzle",
+  "nose"
+ ],
+ "tint_groups": null,
+ "head": [
+  512,
+  434
+ ],
+ "neck": [
+  512,
+  606
+ ],
+ "chest": [
+  512,
+  685
+ ],
+ "eyeL": [
+  432,
+  434
+ ],
+ "eyeR": [
+  592,
+  434
+ ],
+ "mouth": [
+  512,
+  527
+ ],
+ "handL": [
+  334,
+  720
+ ],
+ "handR": [
+  690,
+  720
+ ],
+ "footL": [
+  416,
+  921
+ ],
+ "footR": [
+  608,
+  921
+ ],
+ "accessory": {
+  "hat_top": [
+   512,
+   259
+  ],
+  "bow_ear": [
+   635,
+   287
+  ],
+  "glasses": [
+   512,
+   434
+  ],
+  "neckwear": [
+   512,
+   606
+  ],
+  "cape": [
+   512,
+   603
+  ],
+  "waist": [
+   512,
+   794
+  ]
+ },
+ "damage_spots": [
+  {
+   "id": "rip_armL",
+   "part": "armL",
+   "xy": [
+    334,
+    720
+   ],
+   "types": [
+    "rip",
+    "dirt"
+   ]
+  },
+  {
+   "id": "rip_legR",
+   "part": "legR",
+   "xy": [
+    608,
+    921
+   ],
+   "types": [
+    "rip",
+    "dirt"
+   ]
+  },
+  {
+   "id": "hole_belly",
+   "part": "belly",
+   "xy": [
+    541,
+    785
+   ],
+   "types": [
+    "hole",
+    "dirt"
+   ]
+  },
+  {
+   "id": "rip_head",
+   "part": "head",
+   "xy": [
+    625,
+    369
+   ],
+   "types": [
+    "rip",
+    "tangle"
+   ]
+  },
+  {
+   "id": "dirt_body",
+   "part": "body",
+   "xy": [
+    404,
+    822
+   ],
+   "types": [
+    "dirt",
+    "tangle"
+   ]
+  },
+  {
+   "id": "rip_earL",
+   "part": "earL",
+   "xy": [
+    414,
+    177
+   ],
+   "types": [
+    "rip"
+   ]
+  },
+  {
+   "id": "tangle_tail",
+   "part": "tail",
+   "xy": [
+    687,
+    832
+   ],
+   "types": [
+    "tangle",
+    "dirt"
+   ]
+  }
+ ],
+ "stuffing_droop": "code",
+ "fit": {
+  "scale": 1.0245,
+  "note": "r03 reframed: plush bbox ~960px on 1024 canvas, centred; line widths compensated to stay 14px"
+ }
+}

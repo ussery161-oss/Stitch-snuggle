@@ -1,5 +1,5 @@
 # P3: Real in-app purchase, dev build, TestFlight and submission polish (covers M8–M9)
-Branch `p3-ship` off `main` after P2 is merged.
+Branch `p3-ship` off `main` after P2's PR is merged. Sections A–C must land; you never start EAS builds or submissions yourself.
 
 ## Rules (all sections)
 - **docs/ is read-only.** Design sources: `docs/GDD.md`, `docs/MILESTONES.md`, `docs/ART_REQUESTS.md`. Where a prompt and docs disagree, the prompt wins; list the disagreement in the PR.
@@ -10,12 +10,16 @@ Branch `p3-ship` off `main` after P2 is merged.
 - **No Windows-reserved file names** (con, prn, aux, nul, com1–9, lpt1–9, any extension); a test enforces it.
 - **Art/audio:** only files in `assets/` with an entry in `assets/CREDITS.md` (free, commercially licensed). Placeholders are drawn in code.
 - Touch targets ≥ 64 pt; landscape; safe areas.
-- Tests for everything new. `npx tsc --noEmit` clean, `npm test` green, `npx expo export --platform ios` succeeds. Commit per section (`M#-A:` …). PR body: summary, test notes for Mike's iPad, missing clips, open questions.
+- Tests for everything new. `npx tsc --noEmit` clean, `npm test` green, `npx expo export --platform ios` succeeds. Commit per section (`P#-A:` …) and **push the branch to `ussery161-oss/stitch-snuggle`, then open a PR to `main`** (never force-push, never push to `main` directly). PR body: summary, test notes for Mike's iPad, missing clips, open questions.
+- **Art is already in the repo** at `assets/art/` (final r03 set merged over r01/r02; credits in `assets/art/ART_CREDITS.md`). Never read outside the repo. All drawing goes through `art(id)`; on `null`, draw the code placeholder.
+- **Bundle id is a placeholder** (`com.desmacapps.stitchsnuggle`) until DesMacApps' Apple account exists. Keep it in one place (`app.json`) so it is a one-line change.
 - **Exception to the Expo Go rule:** this prompt adds one native IAP module. Expo Go must **still run**: in Expo Go, `purchaseService` falls back to the mock. Detect this with `Constants.executionEnvironment === 'storeClient'` or a failed native module lookup.
 
-## ⚠️ Before purchase testing: Mike must do this himself
+## ⚠️ Blockers — Mike must do these himself first
+**Store accounts are not ready yet.** The LLC is **DesMacApps**; its D-U-N-S number must be issued first, then the Apple Developer organization account. Until then the bundle id stays the placeholder `com.desmacapps.stitchsnuggle` — keep it a one-line change in `app.json` and list it under open questions in the PR. All code, tests and `eas.json` can land before the account exists; only builds, sandbox purchases and submission wait.
+
 **Mike has to sign Apple's Paid Apps agreement himself** in App Store Connect (Business → Agreements), and complete the **tax and banking** forms. Until it's active, the IAP product won't load in sandbox or TestFlight. No agent can do this for him. Also in App Store Connect (we can talk Mike through it):
-1. Create the app record "Stitch & Snuggle" with bundle id `com.ussery161.stitchsnuggle` and Category Kids (age band 5 & under, plus 6–8).
+1. Create the app record "Stitch & Snuggle" with the final bundle id (placeholder `com.desmacapps.stitchsnuggle`) and Category Kids (age band 5 & under, plus 6–8).
 2. Create the non-consumable product `unlock_all` at the price tier closest to **$5.99**, with display name "Unlock Everything" and a review screenshot.
 3. Add a Sandbox tester.
 
@@ -24,7 +28,7 @@ Branch `p3-ship` off `main` after P2 is merged.
 - No other network use. Add StoreKit's network calls to the noNetwork test's allow-list, scoped to the native module only (not to app code).
 - Unit-test the service against a mocked native module: buy success, cancel, pending, restore, and an already-owned purchase.
 
-## B. EAS builds (uses the free plan, about 3 of 15 builds per month, shared with Popsy)
+## B. EAS builds (free plan: about 3 of the 15 builds per month shared with Popsy — Mike picks when)
 - Add `eas.json` with three profiles: `development` (dev client, internal distribution), `preview`, and `production` (auto-increment the build number).
 - Write the PR steps so Mike can run them from Windows: `npx eas build -p ios --profile development`, install it via QR code, then sandbox-test; later `--profile production` and `npx eas submit -p ios`. Don't start any build yourself; the lead starts builds when Mike asks.
 
@@ -33,6 +37,7 @@ Branch `p3-ship` off `main` after P2 is merged.
 - **Reduce Motion** turns off the wiggle, confetti and breathing.
 - **VoiceOver labels** in the parent area.
 - **iPhone layout pass:** safe areas and small screens. Touch targets are still at least 64 pt; scale the art, not the targets.
+- **Parent gate:** the Unlock ($5.99 `unlock_all`) and Restore buttons exist only inside the parent area, behind the P1 gate.
 - **Kids Category checklist** goes in `docs-proposals/KIDS_CHECKLIST.md` (not in docs/):
   - no third-party analytics or ads SDKs
   - the privacy label says "Data Not Collected"
@@ -49,6 +54,7 @@ Branch `p3-ship` off `main` after P2 is merged.
 5. All earlier tests are green, and `npx expo export --platform ios` succeeds.
 
 ## iPad checklist for Mike
+- [ ] DesMacApps D-U-N-S issued, Apple Developer org account active, real bundle id set in `app.json`.
 - [ ] Expo Go still opens and plays, with the mock unlock.
 - [ ] The **Paid Apps agreement is active** in App Store Connect (only Mike can do this).
 - [ ] Install the dev build and sign in with the sandbox tester. Parent area → Unlock shows the price → buy → everything unlocks.

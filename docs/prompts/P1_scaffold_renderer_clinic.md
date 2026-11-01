@@ -1,5 +1,5 @@
 # P1: Scaffold, plush renderer and the full clinic loop (covers M0–M3)
-Repo `ussery161-oss/stitch-snuggle`, branch `p1-core` off `main` (main has only `docs/` and the README). This is a long session. Work the sections **in order (A → H)**, commit after each one (`P1-A:` … `P1-H:`), and keep every check green at every commit. If you run out of time, finish the current section cleanly and list what's left in the PR. **A–D must land even if E–H don't.**
+Repo `ussery161-oss/stitch-snuggle`, branch `p1-core` off `main` (main has `docs/`, the README and the final art in `assets/art/`). This is a long session. Work the sections **in order (A → H)**, commit after each one (`P1-A:` … `P1-H:`), and keep every check green at every commit. If you run out of time, finish the current section cleanly and list what's left in the PR. **A–D must land even if E–H don't.**
 
 ## Rules (all sections)
 - **docs/ is read-only.** Design sources: `docs/GDD.md`, `docs/MILESTONES.md`, `docs/ART_REQUESTS.md`. Where a prompt and docs disagree, the prompt wins; list the disagreement in the PR.
@@ -10,16 +10,19 @@ Repo `ussery161-oss/stitch-snuggle`, branch `p1-core` off `main` (main has only 
 - **No Windows-reserved file names** (con, prn, aux, nul, com1–9, lpt1–9, any extension); a test enforces it.
 - **Art/audio:** only files in `assets/` with an entry in `assets/CREDITS.md` (free, commercially licensed). Placeholders are drawn in code.
 - Touch targets ≥ 64 pt; landscape; safe areas.
-- Tests for everything new. `npx tsc --noEmit` clean, `npm test` green, `npx expo export --platform ios` succeeds. Commit per section (`M#-A:` …). PR body: summary, test notes for Mike's iPad, missing clips, open questions.
-- **Art pipeline (real art when present, placeholders otherwise):** the Art Director delivers to `/workspace/plush-hospital/art/`, and the lead copies it into the repo at `assets/art/` with the same sub-paths (`plush/<base>/<body>/<part>_<layer>.png`, `tools/`, `fabrics/`, `ui/`, `stickers/`). You never read outside the repo. Add `scripts/gen-art-manifest.mjs` (`npm run gen:art`), which scans `assets/art/**` and writes `src/art/manifest.generated.ts`, a static `require()` map (Metro needs static requires). All drawing code calls `art(id)`, which returns the image or `null`. On `null` the caller draws its **code placeholder**. Commit the generated manifest. A test checks that the manifest matches the folder, so a stale manifest fails CI. Re-run `gen:art` whenever art lands.
-- **Design docs** are `docs/GDD.md`, `docs/MILESTONES.md`, `docs/ART_REQUESTS.md` and `docs/CLAUDE.md`. Do not edit docs/.
+- Tests for everything new. `npx tsc --noEmit` clean, `npm test` green, `npx expo export --platform ios` succeeds. Commit per section (`P#-A:` …) and **push the branch to `ussery161-oss/stitch-snuggle`, then open a PR to `main`** (never force-push, never push to `main` directly). PR body: summary, test notes for Mike's iPad, missing clips, open questions.
+- **Art is already in the repo** at `assets/art/` (final r03 set merged over r01/r02; credits in `assets/art/ART_CREDITS.md`). Never read outside the repo. All drawing goes through `art(id)`; on `null`, draw the code placeholder.
+- **Bundle id is a placeholder** (`com.desmacapps.stitchsnuggle`) until DesMacApps' Apple account exists. Keep it in one place (`app.json`) so it is a one-line change.
+
+- **Art manifest:** add `scripts/gen-art-manifest.mjs` (`npm run gen:art`) that scans `assets/art/**` and writes `src/art/manifest.generated.ts`, a static `require()` map (Metro needs static requires). `art(id)` returns the image or `null`. Commit the generated manifest; a test fails if it's stale.
+- **r03 art rules:** bases live at `assets/art/plush/<base>/<body>/<part>_<mask|line|shade|highlight>.png` on a 1024 canvas, each with `anchors.json` (`z_order`, anchors, `damage_spots`, `stuffing_droop`, `fit.scale`). Draw parts in `z_order` (ears under the head). Eyes/mouths (`faces/`), `accessories/` and `damage/` are r02 pieces that align to r03 anchors; when placing them use the anchor positions as given (already r03-transformed) and scale accessory/face sprites by `fit.scale`. Damage sprites are generic: place them on the base's `damage_spots` and clip to the part mask in code. Scenes are `ui/scenes/scene_*.png` (2048×1536) with placements in `ui/scenes/scenes.json` (`plush_rect` = where the 1024 plush canvas is drawn, scaled to `size`).
 
 ---
 ## A. Project scaffold
 1. Expo SDK 57 + TypeScript. Pin the same versions as sitepop: react-native-reanimated 4.5.1, react-native-worklets 0.10.1, and the Expo-Go-bundled versions of @shopify/react-native-skia and react-native-gesture-handler (`npx expo install`). Add expo-audio, expo-speech, @react-native-async-storage/async-storage and expo-screen-orientation.
-2. `app.json`: name "Stitch & Snuggle", slug `stitch-snuggle`, landscape, `supportsTablet: true` (iPad **and iPhone**), `ITSAppUsesNonExemptEncryption: false`, no tracking or permission keys.
+2. `app.json`: name "Stitch & Snuggle", slug `stitch-snuggle`, landscape, `supportsTablet: true` (iPad **and iPhone**), `ITSAppUsesNonExemptEncryption: false`, no tracking or permission keys, `ios.bundleIdentifier: com.desmacapps.stitchsnuggle` (placeholder).
 3. Folders: `src/{screens,clinic,studio,plush,audio,gate,storage,ui,logic,art,config}`, `assets/{art,audio}`, `scripts/`, `__tests__/`. Add `.gitattributes` with `* text=auto eol=lf`, because Mike's PC is Windows and sitepop had test failures from CRLF line endings.
-4. `assets/CREDITS.md` has a table (asset, author, license, source). Seed it with the voice: **Kokoro-82M v1.0 (hexgrad), voice af_bella, Apache License 2.0 (code and weights); rendered clips are our own output**, plus the CC BY training-set credits that sitepop lists: Koniwa `tnc` (CC BY 3.0) and SIWIS (CC BY 4.0).
+4. `assets/CREDITS.md` has a table (asset, author, license, source). Seed it with the three art rows from `assets/art/ART_CREDITS.md` (r01, r02, r03 merged), and the voice: **Kokoro-82M v1.0 (hexgrad), voice af_bella, Apache License 2.0 (code and weights); rendered clips are our own output**, plus the CC BY training-set credits that sitepop lists: Koniwa `tnc` (CC BY 3.0) and SIWIS (CC BY 4.0).
 
 ## B. Guard tests
 - `workletPurity.test.ts`: parse `src/**/*.ts(x)`. Any identifier called inside `useAnimatedStyle`, `useDerivedValue`, `useAnimatedReaction`, `runOnUI` or a Gesture `.onBegin/.onUpdate/.onChange/.onEnd` body that resolves to a local or imported function must contain `'worklet'` (or be a Reanimated or Math built-in). This exact bug crashed Popsy Words in Expo Go with no red screen.
@@ -41,6 +44,7 @@ Repo `ussery161-oss/stitch-snuggle`, branch `p1-core` off `main` (main has only 
 ## E. Plush renderer
 - Types: `Region`, `PartDef {id, region, z, layers:{mask,line,shade?,highlight?}, anchor}`, `BaseDef {id, bodyTypes: round|tall|tiny, anchors(head,neck,chest,eyeL,eyeR,hand,feet), damageSpots}` and `PlushSpec {base, body, fills: Record<Region,{color,pattern}>, eyes, accessories[], nameId}`. Bases live in a registry.
 - **Compositor (Skia):** for each part in z order, draw the mask. Fill it with the region colour, or the pattern tile tinted by that colour (`ImageShader` with repeat, multiply over the colour, clipped by the mask with `srcIn`). Then draw shade (Multiply), then highlight (Screen), then line (normal). Eyes and accessories are anchored sprites drawn last.
+- **Real art first:** load base parts from `assets/art/plush/...` via `art()` and the base's `anchors.json`; register all 27 base/body sets (Bear, Bunny, Kitty, Puppy, Unicorn, Dino, Owl in round/tall/tiny; Doll girl/boy × 4 skin tones) even though P1 only plays Bear and Bunny.
 - **Placeholders:** when `art()` returns null, build the mask and line from Skia paths: body ellipse, head circle, ears (round for the bear, long for the bunny), arms, legs and a belly oval. Bear and Bunny are needed in round, tall and tiny (scaled path variants). Placeholder pattern tiles (dots, stripes, gingham, stars, hearts) are generated in code.
 - **Idle animation:** a 2.4 s breathing loop (scale 1 → 1.02) and a blink every 3–6 s. All helpers are worklets. Respect Reduce Motion.
 - **Dev screen** (behind the gate): a grid of Bear and Bunny in all 3 body types with random fills; tap one to randomize it. Show an fps readout and put the measured fps for 6 plushies in the PR.
@@ -68,8 +72,9 @@ Repo `ussery161-oss/stitch-snuggle`, branch `p1-core` off `main` (main has only 
 - `createVisit` now generates every damage kind. Cap the steps at 3 per visit for ages 3–5 (the default) and 4 for ages 6–7. The age setting is behind the gate.
 
 ## H. Recovery room and heart-and-cross charm
-- Between Go home and the Title, show a 3-second recovery-room scene: the plushie waves from a little bed.
-- On the wall, draw **one tiny heart-and-cross charm** using `art('ui/charm_heart_cross')`, or a placeholder made from Skia paths (a heart with a small cross above it). Size: 28 pt on iPad and 22 pt on iPhone. Colour: #F2C94C at 60% opacity. Set `pointerEvents="none"`; it is not animated and not voiced.
+- The Clinic uses `ui/scenes/scene_clinic.png` with the plush at `scenes.json` → `scene_clinic.plush_rect`, the basket at `basket_spot`, tools at `tool_tray`.
+- Between Go home and the Title, show a 3-second recovery-room scene (`scene_recovery.png`, plush at `scene_recovery.plush_rect`): the plushie waves on the rug/bed.
+- On the wall, draw **one tiny heart-and-cross charm** using `art('ui/decor/wall_charm_heart_cross')` at `scenes.json` → `scene_recovery.wall_charm` (pos, scale 0.35), or a placeholder made from Skia paths (a heart with a small cross above it). Size: 28 pt on iPad and 22 pt on iPhone. Colour: #F2C94C at 60% opacity. Set `pointerEvents="none"`; it is not animated and not voiced.
 
 ## Voice lines added (`src/audio/lines.ts` and `assets/audio/VOICE_IDS.md`)
 story-*, ouch-thanks, praise-1..4, every-toy-loved, thank-you, hold-to-go-home, and tool names (needle, patch, cotton, soap, shower, towel, brush, dress). Missing clips fall back to expo-speech. List them in the PR under "For Researcher 2 to record" with each id and its exact text.

@@ -1,0 +1,162 @@
+{
+ "scene_clinic": {
+  "plush_rect": {
+   "x": 354,
+   "y": 0,
+   "size": 1340,
+   "note": "place the 1024 plush canvas scaled to size px at x,y; feet rest on the cushion (y~1265)"
+  },
+  "basket_spot": [
+   230,
+   1300
+  ],
+  "tool_tray": [
+   1860,
+   800
+  ]
+ },
+ "scene_recovery": {
+  "plush_rect": {
+   "x": 444,
+   "y": 250,
+   "size": 1160,
+   "note": "feet on rug centre (y~1390)"
+  },
+  "wall_charm": {
+   "file": "r01/assets/ui/decor/wall_charm_heart_cross.png",
+   "pos": [
+    1420,
+    330
+   ],
+   "scale": 0.35,
+   "note": "tiny & subtle; Mike approved"
+  }
+ },
+ "scene_showcase": {
+  "display_spots": [
+   {
+    "id": "shelf_1",
+    "rect": {
+     "x": 70,
+     "y": 376,
+     "size": 360
+    },
+    "foot": [
+     250,
+     720
+    ]
+   },
+   {
+    "id": "shelf_2",
+    "rect": {
+     "x": 430,
+     "y": 376,
+     "size": 360
+    },
+    "foot": [
+     610,
+     720
+    ]
+   },
+   {
+    "id": "shelf_3",
+    "rect": {
+     "x": 70,
+     "y": 836,
+     "size": 360
+    },
+    "foot": [
+     250,
+     1180
+    ]
+   },
+   {
+    "id": "shelf_4",
+    "rect": {
+     "x": 430,
+     "y": 836,
+     "size": 360
+    },
+    "foot": [
+     610,
+     1180
+    ]
+   },
+   {
+    "id": "shelf_5",
+    "rect": {
+     "x": 1258,
+     "y": 376,
+     "size": 360
+    },
+    "foot": [
+     1438,
+     720
+    ]
+   },
+   {
+    "id": "shelf_6",
+    "rect": {
+     "x": 1618,
+     "y": 836,
+     "size": 360
+    },
+    "foot": [
+     1798,
+     1180
+    ]
+   },
+   {
+    "id": "shelf_7",
+    "rect": {
+     "x": 1618,
+     "y": 376,
+     "size": 360
+    },
+    "foot": [
+     1798,
+     720
+    ]
+   },
+   {
+    "id": "shelf_8",
+    "rect": {
+     "x": 1258,
+     "y": 836,
+     "size": 360
+    },
+    "foot": [
+     1438,
+     1180
+    ]
+   },
+   {
+    "id": "hero_podium",
+    "rect": {
+     "x": 644,
+     "y": 610,
+     "size": 760
+    },
+    "foot": [
+     1024,
+     1350
+    ],
+    "note": "newest creation"
+   }
+  ],
+  "wall_charm": {
+   "file": "r01/assets/ui/decor/wall_charm_heart_cross.png",
+   "pos": [
+    1024,
+    330
+   ],
+   "scale": 0.3,
+   "note": "subtle, above the hero podium, below the name plaque"
+  },
+  "name_plaque": [
+   1024,
+   168
+  ],
+  "note": "rect = where the 1024 plush canvas goes, scaled to size px; foot = shelf contact point"
+ }
+}

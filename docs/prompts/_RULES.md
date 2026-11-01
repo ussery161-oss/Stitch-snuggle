@@ -1,4 +1,4 @@
-# Shared rules — paste at the top of every Stitch & Snuggle prompt
+# Shared rules — paste at the top of every Stitch & Snuggle prompt (P1–P3 already include them)
 - **docs/ is read-only.** Design sources: `docs/GDD.md`, `docs/MILESTONES.md`, `docs/ART_REQUESTS.md`. Where a prompt and docs disagree, the prompt wins; list the disagreement in the PR.
 - **Kids Category / COPPA:** no network calls, ads, analytics, tracking, accounts or outside links. No SDK that phones home. Purchases, restore, settings and links only behind the parental gate. No fail states, scores, lives, timers or "wrong" feedback.
 - **No reading required:** every child-facing instruction is voice + icon + hand hint. Voice goes through `AudioService` (two players, preload next) and `voiceLookup`; missing clips fall back to expo-speech and are listed in the PR under "For Researcher 2 to record".
@@ -7,4 +7,6 @@
 - **No Windows-reserved file names** (con, prn, aux, nul, com1–9, lpt1–9, any extension); a test enforces it.
 - **Art/audio:** only files in `assets/` with an entry in `assets/CREDITS.md` (free, commercially licensed). Placeholders are drawn in code.
 - Touch targets ≥ 64 pt; landscape; safe areas.
-- Tests for everything new. `npx tsc --noEmit` clean, `npm test` green, `npx expo export --platform ios` succeeds. Commit per section (`M#-A:` …). PR body: summary, test notes for Mike's iPad, missing clips, open questions.
+- Tests for everything new. `npx tsc --noEmit` clean, `npm test` green, `npx expo export --platform ios` succeeds. Commit per section (`P#-A:` …) and **push the branch to `ussery161-oss/stitch-snuggle`, then open a PR to `main`** (never force-push, never push to `main` directly). PR body: summary, test notes for Mike's iPad, missing clips, open questions.
+- **Art is already in the repo** at `assets/art/` (final r03 set merged over r01/r02; credits in `assets/art/ART_CREDITS.md`). Never read outside the repo. All drawing goes through `art(id)`; on `null`, draw the code placeholder.
+- **Bundle id is a placeholder** (`com.desmacapps.stitchsnuggle`) until DesMacApps' Apple account exists. Keep it in one place (`app.json`) so it is a one-line change.

@@ -1,0 +1,182 @@
+{
+ "canvas": [
+  1024,
+  1024
+ ],
+ "base": "bear",
+ "body": "tiny",
+ "units": "px, origin top-left",
+ "z_order": [
+  "tail",
+  "legL",
+  "legR",
+  "body",
+  "belly",
+  "armL",
+  "armR",
+  "earL",
+  "earR",
+  "earInnerL",
+  "earInnerR",
+  "head",
+  "muzzle",
+  "nose"
+ ],
+ "tint_groups": null,
+ "head": [
+  512,
+  368
+ ],
+ "neck": [
+  512,
+  603
+ ],
+ "chest": [
+  512,
+  715
+ ],
+ "eyeL": [
+  401,
+  346
+ ],
+ "eyeR": [
+  622,
+  346
+ ],
+ "mouth": [
+  512,
+  504
+ ],
+ "handL": [
+  351,
+  763
+ ],
+ "handR": [
+  673,
+  763
+ ],
+ "footL": [
+  426,
+  924
+ ],
+ "footR": [
+  598,
+  924
+ ],
+ "accessory": {
+  "hat_top": [
+   512,
+   133
+  ],
+  "bow_ear": [
+   683,
+   170
+  ],
+  "glasses": [
+   512,
+   346
+  ],
+  "neckwear": [
+   512,
+   603
+  ],
+  "cape": [
+   512,
+   646
+  ],
+  "waist": [
+   512,
+   808
+  ]
+ },
+ "damage_spots": [
+  {
+   "id": "rip_armL",
+   "part": "armL",
+   "xy": [
+    351,
+    763
+   ],
+   "types": [
+    "rip",
+    "dirt"
+   ]
+  },
+  {
+   "id": "rip_legR",
+   "part": "legR",
+   "xy": [
+    598,
+    924
+   ],
+   "types": [
+    "rip",
+    "dirt"
+   ]
+  },
+  {
+   "id": "hole_belly",
+   "part": "belly",
+   "xy": [
+    538,
+    800
+   ],
+   "types": [
+    "hole",
+    "dirt"
+   ]
+  },
+  {
+   "id": "rip_head",
+   "part": "head",
+   "xy": [
+    668,
+    282
+   ],
+   "types": [
+    "rip",
+    "tangle"
+   ]
+  },
+  {
+   "id": "dirt_body",
+   "part": "body",
+   "xy": [
+    417,
+    831
+   ],
+   "types": [
+    "dirt",
+    "tangle"
+   ]
+  },
+  {
+   "id": "rip_earL",
+   "part": "earL",
+   "xy": [
+    290,
+    141
+   ],
+   "types": [
+    "rip"
+   ]
+  },
+  {
+   "id": "tangle_tail",
+   "part": "tail",
+   "xy": [
+    638,
+    856
+   ],
+   "types": [
+    "tangle",
+    "dirt"
+   ]
+  }
+ ],
+ "stuffing_droop": "code",
+ "fit": {
+  "scale": 1.2355,
+  "note": "r03 reframed: plush bbox ~960px on 1024 canvas, centred; line widths compensated to stay 14px"
+ }
+}

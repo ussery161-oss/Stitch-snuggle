@@ -1,5 +1,5 @@
 # P2: Design Studio, sticker book, content pass, demo/unlock, parent area and credits (covers M4–M7)
-Branch `p2-studio` off `main` after P1 is merged. Work the sections **in order (A → F)** and commit after each one (`P2-A:` …). **A–C must land.**
+Branch `p2-studio` off `main` after P1's PR is merged. Work the sections **in order (A → G)** and commit after each one (`P2-A:` …). **A–C must land.**
 
 ## Rules (all sections)
 - **docs/ is read-only.** Design sources: `docs/GDD.md`, `docs/MILESTONES.md`, `docs/ART_REQUESTS.md`. Where a prompt and docs disagree, the prompt wins; list the disagreement in the PR.
@@ -10,8 +10,11 @@ Branch `p2-studio` off `main` after P1 is merged. Work the sections **in order (
 - **No Windows-reserved file names** (con, prn, aux, nul, com1–9, lpt1–9, any extension); a test enforces it.
 - **Art/audio:** only files in `assets/` with an entry in `assets/CREDITS.md` (free, commercially licensed). Placeholders are drawn in code.
 - Touch targets ≥ 64 pt; landscape; safe areas.
-- Tests for everything new. `npx tsc --noEmit` clean, `npm test` green, `npx expo export --platform ios` succeeds. Commit per section (`M#-A:` …). PR body: summary, test notes for Mike's iPad, missing clips, open questions.
-- Art: use `art(id)` and placeholders exactly as in P1. Re-run `npm run gen:art` if `assets/art/` changed.
+- Tests for everything new. `npx tsc --noEmit` clean, `npm test` green, `npx expo export --platform ios` succeeds. Commit per section (`P#-A:` …) and **push the branch to `ussery161-oss/stitch-snuggle`, then open a PR to `main`** (never force-push, never push to `main` directly). PR body: summary, test notes for Mike's iPad, missing clips, open questions.
+- **Art is already in the repo** at `assets/art/` (final r03 set merged over r01/r02; credits in `assets/art/ART_CREDITS.md`). Never read outside the repo. All drawing goes through `art(id)`; on `null`, draw the code placeholder.
+- **Bundle id is a placeholder** (`com.desmacapps.stitchsnuggle`) until DesMacApps' Apple account exists. Keep it in one place (`app.json`) so it is a one-line change.
+
+
 
 ---
 ## A. Save schema v1 (`src/storage`)
@@ -19,7 +22,7 @@ Branch `p2-studio` off `main` after P1 is merged. Work the sections **in order (
 
 ## B. Design Studio
 - Big icon tabs: Base → Body → Colors → Patterns → Eyes → Accessories → Name. Kids can move freely between tabs. A live `<Plush>` preview with the idle animation is always visible.
-- **Bases:** Bear, Bunny, Kitty, Puppy, Unicorn-pony, Dino, Owl, plus a Rag Doll with 2 body types and a skin tint. Each base has round, tall and tiny bodies.
+- **Bases:** Bear, Bunny, Kitty, Puppy, Unicorn-pony, Dino, Owl, plus a Rag Doll (girl and boy, 4 skin tones), all from the r03 art. Each base has round, tall and tiny bodies.
 - **Colors:** a 12-swatch palette. Two ways to paint: tap a region on the plushie and then a swatch, or tap a swatch and then a region.
 - **Patterns:** solid, gingham, dots, stripes, stars, hearts, plaid, fleece, denim, floral, rainbow (untinted) and patchwork.
 - **Eyes:** 8 styles, and the doll adds 4 hair styles.
@@ -37,6 +40,7 @@ Branch `p2-studio` off `main` after P1 is merged. Work the sections **in order (
 - No currency and no random rewards.
 
 ## D. Content pass
+- **Preset rules (Art Director, look-alike avoidance — add a test):** the Unicorn preset defaults to round-shiny or button eyes, never big-sparkly. The Owl preset never defaults to a bow tie, a leaf or a green tint. "Surprise me" may still produce them on custom creations.
 - Register all 8 presets: Bear, Bunny, Kitty, Puppy, Unicorn-pony, Dino, Rag Doll and Owl. Each gets a story line, a damage set and an owner (4 original kid characters with varied skin tones; placeholders are circles with simple faces).
 - **Seasonal set:** keep a registry slot for seasonal presets that ship in free app updates (Pumpkin Kitty, Snow Bear, Spring Lamb, Beach Turtle). They are inert until art lands, and they are **included in the unlock**.
 
@@ -52,12 +56,21 @@ Branch `p2-studio` off `main` after P1 is merged. Work the sections **in order (
 These are in the parent area only. The order is fixed:
 1. *"And be ye kind one to another, tenderhearted, forgiving one another, even as God for Christ's sake hath forgiven you."* — Ephesians 4:32 (KJV)
 2. "Thanking Our Lord and Savior Jesus Christ for the ample blessings he has bestowed."
-3. The team, then the art and audio credits rendered from `assets/CREDITS.md`, including **Voice: Kokoro-82M v1.0 (hexgrad), voice af_bella, Apache License 2.0**.
+3. The team (DesMacApps), then the art and audio credits rendered from `assets/CREDITS.md` (which must include the merged r01, r02 and r03 art rows from `assets/art/ART_CREDITS.md`), including **Voice: Kokoro-82M v1.0 (hexgrad), voice af_bella, Apache License 2.0**.
 
-The child flow stays faith-light: only the kindness lines and the P1 wall charm.
+The child flow stays faith-light: only the kindness lines and the wall charm (recovery room from P1, and above the Showcase podium).
+
+## G. Showcase Room
+- New child screen reached from a Title button (shelf icon) and after saving in the Studio. Uses `ui/scenes/scene_showcase.png` with `scenes.json` → `scene_showcase.display_spots` (8 shelf spots + the hero podium), `name_plaque` and `wall_charm`.
+- Kids tap a saved creation from a tray to place it on an empty spot, tap a placed one then another spot to swap/move, and drag one onto the podium to make it the hero. The newest creation goes to the podium by default. The plaque shows the plush's name as an icon and speaks it (no reading needed).
+- Save `showcase: {spots: (creationId|null)[8], podium: creationId|null}` in the save schema (bump to v2 with a migration from v1). Local only; no accounts, nothing leaves the device.
+- Removing a creation from the showcase is free; deleting it needs the gate. Locked (demo) mode still lets kids place their own creations.
+- Charm above the podium: `pointerEvents="none"`, not animated, not voiced.
 
 ## Acceptance tests
-1. Schema: defaults, migration, corruption reset, and a round trip of 24 creations.
+1. Schema: defaults, v0→v1→v2 migration, corruption reset, and a round trip of 24 creations plus showcase placements.
+8. Preset rules: Unicorn default eyes ∈ {round-shiny, button}; Owl default has no bow tie, no leaf, no green tint.
+9. Showcase: place, swap, podium and persistence after relaunch; a deleted creation clears its spot.
 2. Studio: every mutation produces a valid spec, Undo restores the previous 20 states, a random spec is always valid, and every base has every body type and region.
 3. Entitlements: the demo item list is exact, locked items are blocked until the mock unlock and all open after it, and seasonal items are included in the unlock.
 4. No price or "buy" text exists in any child screen (a static scan of `src/screens` minus `parent/`).
@@ -73,3 +86,4 @@ The child flow stays faith-light: only the kindness lines and the P1 wall charm.
 - [ ] Locked plushies show a padlock with no price and no nag. Parent area, then Unlock (mock), and everything opens.
 - [ ] Credits open with Ephesians 4:32, then the blessing line.
 - [ ] The privacy page says no data is collected.
+- [ ] Showcase Room: put 3 plushies on shelves, move one to the podium, close and reopen — they're still there.
