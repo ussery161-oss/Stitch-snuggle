@@ -26,6 +26,7 @@ Every file under each folder below comes from the set named. `__tests__/artManif
 | `art/ui/icons/` | r02 |
 | `art/ui/owners/` | r02 |
 | `art/ui/stickers/` | r02 |
+| `art/ui/basket.png` | r02 |
 
 ## Audio files by folder
 | Folder | Source |
