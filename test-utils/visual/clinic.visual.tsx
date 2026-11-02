@@ -173,3 +173,49 @@ describe('visual: iPhone layout', () => {
     expect(file).toContain('clinic_iphone.png');
   });
 });
+
+describe('visual: showcase room', () => {
+  beforeAll(() => useDiskArt());
+
+  it('renders the showcase with plushies on shelves, a hero on the podium and the charm', async () => {
+    const { PRESETS_V1 } = require('../../src/content/presets');
+    const { goldMatrix, CHARM_OPACITY, charmSize } = require('../../src/clinic/WallCharm');
+    const { ColorMatrix } = require('@shopify/react-native-skia');
+    const scenes = require('../../assets/art/ui/scenes/scenes.json').scene_showcase;
+    const s = Math.min(W / SCENE_W, H / SCENE_H);
+    const ox = (W - SCENE_W * s) / 2;
+    const oy = (H - SCENE_H * s) / 2;
+    const scene = await loadImage('ui/scenes/scene_showcase');
+    const charm = await loadImage('ui/decor/wall_charm_heart_cross');
+    const specs = (PRESETS_V1 as { spec: import('../../src/plush/types').PlushSpec }[]).map((p) => p.spec);
+    const placed = [];
+    for (let i = 0; i < 9; i++) {
+      const spec = specs[i % specs.length];
+      const set = bodySet(spec.base, spec.body, spec.style);
+      placed.push({ spec, set, assets: await loadPlushAssets(spec, set, i === 8 ? 0.6 : 0.4, 'smile'), rect: scenes.display_spots[i].rect });
+    }
+    const size = charmSize(false);
+    const cx = ox + scenes.wall_charm.pos[0] * s;
+    const cy = oy + scenes.wall_charm.pos[1] * s;
+    const file = await renderPng(
+      <Group>
+        <Fill color="#F8E4DE" />
+        {scene ? <Image image={scene} x={ox} y={oy} width={SCENE_W * s} height={SCENE_H * s} fit="fill" /> : null}
+        {placed.map((p, i) => (
+          <Group key={i} transform={[{ translateX: ox + p.rect.x * s }, { translateY: oy + p.rect.y * s }, { scale: (p.rect.size * s) / 1024 }]}>
+            <PlushDrawing set={p.set} spec={p.spec} assets={p.assets} />
+          </Group>
+        ))}
+        <Group opacity={CHARM_OPACITY}>
+          <Image image={charm} x={cx - size / 2} y={cy - size / 2} width={size} height={size} fit="contain">
+            <ColorMatrix matrix={goldMatrix()} />
+          </Image>
+        </Group>
+      </Group>,
+      W,
+      H,
+      'showcase_scene.png',
+    );
+    expect(file).toContain('showcase_scene.png');
+  });
+});

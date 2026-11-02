@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import ArtImage from '../ui/ArtImage';
 import { HeartIcon, LockIcon, StudioIcon } from '../ui/Icons';
+import StudioGlyph from '../studio/StudioIcons';
 import { colors, MIN_TOUCH, touchSize, useLayout } from '../ui/theme';
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
   onStudio: () => void;
   onStickers: () => void;
   onParent: () => void;
+  onShowcase?: () => void;
   /** Optional art drawn above the buttons (the Plush preview, from P1-E). */
   hero?: ReactNode;
 }
@@ -31,7 +33,7 @@ function BigButton({ size, label, onPress, children, testID, color }: { size: nu
   );
 }
 
-export default function TitleScreen({ onPlay, onStudio, onStickers, onParent, hero }: Props) {
+export default function TitleScreen({ onPlay, onStudio, onStickers, onParent, onShowcase, hero }: Props) {
   const { scale } = useLayout();
   const insets = useSafeAreaInsets();
   const play = touchSize(210, scale);
@@ -53,6 +55,11 @@ export default function TitleScreen({ onPlay, onStudio, onStickers, onParent, he
         <BigButton testID="title-stickers" label="Sticker book" size={side} onPress={onStickers} color={colors.sky}>
           <ArtImage id="ui/stickers/book_cover" size={side * 0.56} aspect={1.2} placeholder={<HeartIcon size={side * 0.5} color={colors.lavender} />} />
         </BigButton>
+        {onShowcase ? (
+          <BigButton testID="title-showcase" label="Showcase room" size={side * 0.85} onPress={onShowcase} color={colors.peach}>
+            <StudioGlyph name="shelf" size={side * 0.5} />
+          </BigButton>
+        ) : null}
       </View>
       <Pressable
         testID="title-parent"

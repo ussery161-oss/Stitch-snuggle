@@ -1,7 +1,7 @@
 // The state-based router. Child screens: title, clinic, studio, stickers. Grown-up screens
 // (parent, dev) are only reachable through the parental gate. Pure TypeScript.
 
-export type ChildScreen = 'title' | 'clinic' | 'studio' | 'stickers';
+export type ChildScreen = 'title' | 'clinic' | 'studio' | 'stickers' | 'showcase';
 export type GatedScreen = 'parent' | 'dev' | 'privacy' | 'credits';
 export type Screen = ChildScreen | GatedScreen | 'gate';
 

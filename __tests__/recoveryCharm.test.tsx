@@ -56,7 +56,8 @@ describe('wall charm', () => {
       );
     expect(hits).toEqual([]);
     const charmUsers = walk(SRC).filter((f) => !f.endsWith('WallCharm.tsx') && fs.readFileSync(f, 'utf8').includes('WallCharm'));
-    expect(charmUsers.map((f) => path.relative(SRC, f).split(path.sep).join('/'))).toEqual(['clinic/RecoveryRoom.tsx']);
+    // The recovery room (P1) and above the Showcase podium (P2-G), nowhere else.
+    expect(charmUsers.map((f) => path.relative(SRC, f).split(path.sep).join('/')).sort()).toEqual(['clinic/RecoveryRoom.tsx', 'showcase/ShowcaseScreen.tsx']);
   });
 });
 

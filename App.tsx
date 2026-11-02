@@ -19,6 +19,7 @@ import type { AgeBand } from './src/clinic/visit';
 import TitleHero from './src/screens/TitleHero';
 import StudioScreen from './src/studio/StudioScreen';
 import StickerBookScreen from './src/stickers/StickerBookScreen';
+import ShowcaseScreen, { withNewest } from './src/showcase/ShowcaseScreen';
 import type { Creation } from './src/storage/schema';
 import TitleScreen from './src/screens/TitleScreen';
 import { colors } from './src/ui/theme';
@@ -58,6 +59,7 @@ export default function App() {
           onStudio={() => dispatch({ type: 'go', screen: 'studio' })}
           onStickers={() => dispatch({ type: 'go', screen: 'stickers' })}
           onParent={() => dispatch({ type: 'gate', target: 'parent' })}
+          onShowcase={() => dispatch({ type: 'go', screen: 'showcase' })}
           hero={<TitleHero size={Math.round(Math.min(width, height) * 0.42)} />}
         />
       );
@@ -80,6 +82,11 @@ export default function App() {
         <StudioScreen
           onHome={home}
           onParent={() => dispatch({ type: 'gate', target: 'parent' })}
+          onSaved={(c) => {
+            // The newest plushie goes on the Showcase podium, and the room opens.
+            saveStore.update((s) => ({ ...s, showcase: withNewest(s.showcase, c.id) }));
+            setTimeout(() => dispatch({ type: 'go', screen: 'showcase' }), 900);
+          }}
           onPlayDoctor={(c) => {
             setCreationPatient(c);
             dispatch({ type: 'go', screen: 'clinic' });
@@ -89,6 +96,9 @@ export default function App() {
       break;
     case 'stickers':
       screen = <StickerBookScreen onHome={home} />;
+      break;
+    case 'showcase':
+      screen = <ShowcaseScreen onHome={home} />;
       break;
     case 'gate':
       screen = <ParentalGate onPass={() => dispatch({ type: 'gatePassed' })} onCancel={() => dispatch({ type: 'gateCancelled' })} />;

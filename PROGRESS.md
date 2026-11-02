@@ -97,9 +97,9 @@ https://github.com/ussery161-oss/Stitch-snuggle/compare/main...p1-core
 | B. Design Studio | ✅ | 93b400c |
 | C. Sticker book | ✅ | 5ebfe2a |
 | D. Content pass + preset rules | ✅ | e092355 |
-| E. Entitlements, mock purchase, parent area | ✅ | (this commit, with F) |
-| F. Credits | ✅ | (this commit, with E: the credits page lives in the parent area) |
-| G. Showcase Room | ☐ | |
+| E. Entitlements, mock purchase, parent area | ✅ | 51afde0 (with F) |
+| F. Credits | ✅ | 51afde0 (with E: the credits page lives in the parent area) |
+| G. Showcase Room | ✅ | (this commit) |
 | Gate | ☐ | |
 
 PR: https://github.com/ussery161-oss/Stitch-snuggle/compare/main...p2-studio (after Phase 1's PR merges, or compare against `p1-core`).
@@ -112,4 +112,4 @@ PR: https://github.com/ussery161-oss/Stitch-snuggle/compare/main...p2-studio (af
 - npm held back `@shopify/react-native-skia`'s postinstall (it downloads the native Skia libraries). Not needed for Expo Go, Jest or `expo export`; needed before a native build (Phase 3): `npm install-scripts approve @shopify/react-native-skia`.
 
 ## Next
-P2-G Showcase Room.
+P2 phase gate.
