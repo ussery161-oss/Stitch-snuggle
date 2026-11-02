@@ -38,8 +38,8 @@ export interface PlushDrawingProps {
   eyeTransform?: Transform;
   /** Hide accessories (e.g. while the Dress step shows its own). */
   hideAccessories?: boolean;
-  /** Drawn over the parts, under the face (damage overlays, patches). */
-  overlay?: ReactNode;
+  /** Drawn over the parts, under the face (damage overlays, patches). A function gets the loaded assets (to clip to part masks). */
+  overlay?: ReactNode | ((assets: PlushAssets, set: BodySet) => ReactNode);
 }
 
 function PartFill({ part, spec, assets }: { part: PartDef; spec: PlushSpec; assets: PlushAssets }) {
@@ -169,7 +169,7 @@ export default function PlushDrawing({ set, spec, assets, partTransforms, eyeTra
           <PartFill key={part.id} part={part} spec={spec} assets={assets} />
         );
       })}
-      {overlay}
+      {typeof overlay === 'function' ? overlay(assets, set) : overlay}
       {assets.mouth.fill || assets.mouth.line ? (
         <Group>
           <Sprite image={assets.mouth.fill} at={set.anchors.mouth} reg={MOUTH_SPRITE} s={set.fitScale} />

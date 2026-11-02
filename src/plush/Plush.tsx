@@ -2,7 +2,7 @@
 // `size` pt. Loads its layers (cropped and sized for the screen), breathes and blinks while idle
 // (both off with Reduce Motion), and draws through PlushDrawing.
 import { Group } from '@shopify/react-native-skia';
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { PixelRatio } from 'react-native';
 import { Easing, useDerivedValue, useReducedMotion, useSharedValue, withRepeat, withSequence, withTiming, cancelAnimation } from 'react-native-reanimated';
 
@@ -25,9 +25,22 @@ export interface PlushProps {
   partTransforms?: PlushDrawingProps['partTransforms'];
   hideAccessories?: boolean;
   /** Drawn in 1024 space over the parts (damage, patches). */
-  overlay?: ReactNode;
+  overlay?: PlushDrawingProps['overlay'];
   /** Called once the art is loaded. */
   onReady?: () => void;
+}
+
+/** Recently loaded asset bundles, so a remounted plushie (next clinic step) draws at once. */
+const recent = new Map<string, PlushAssets>();
+const RECENT_MAX = 8;
+
+function rememberAssets(key: string, assets: PlushAssets): void {
+  recent.delete(key);
+  recent.set(key, assets);
+  if (recent.size > RECENT_MAX) {
+    const first = recent.keys().next().value;
+    if (first !== undefined) recent.delete(first);
+  }
 }
 
 /** Loads a plushie's assets; keeps the last ones while new ones load if the set didn't change. */
@@ -36,9 +49,12 @@ export function usePlushAssets(spec: PlushSpec, size: number, mouth: MouthStyle 
   const quality = qualityFor(size * PixelRatio.get());
   const key = assetKey(spec, set, quality, mouth);
   const [state, setState] = useState<{ key: string; setKey: string; assets: PlushAssets } | null>(null);
+  const hit = recent.get(key);
   useEffect(() => {
+    if (recent.has(key)) return;
     let live = true;
     loadPlushAssets(spec, set, quality, mouth).then((assets) => {
+      rememberAssets(key, assets);
       if (live) setState({ key, setKey: set.key, assets });
     });
     return () => {
@@ -47,6 +63,7 @@ export function usePlushAssets(spec: PlushSpec, size: number, mouth: MouthStyle 
     // The key covers everything the assets depend on.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
+  if (hit) return { assets: hit, ready: true };
   if (state === null || state.setKey !== set.key) return { assets: EMPTY_ASSETS, ready: set.placeholder };
   return { assets: state.assets, ready: state.key === key };
 }

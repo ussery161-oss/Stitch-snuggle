@@ -18,8 +18,20 @@ jest.mock('expo-screen-orientation', () => ({
 jest.mock('react-native-worklets', () => require('react-native-worklets/lib/module/mock'));
 jest.mock('react-native-reanimated', () => {
   const mock = require('react-native-reanimated/mock');
-  // The library mock leaves these out ("ADD ME IF NEEDED").
-  return { ...mock, useReducedMotion: () => false, useFrameCallback: () => ({ setActive: () => {}, isActive: false, callbackId: 0 }) };
+  const React = require('react');
+  return {
+    ...mock,
+    // The library mock makes a new shared value on every render; a real one lives as long as the
+    // component (gesture callbacks hold on to it).
+    useSharedValue: (init) => {
+      const ref = React.useRef(null);
+      if (ref.current === null) ref.current = mock.useSharedValue(init);
+      return ref.current;
+    },
+    // The library mock leaves these out ("ADD ME IF NEEDED").
+    useReducedMotion: () => false,
+    useFrameCallback: () => ({ setActive: () => {}, isActive: false, callbackId: 0 }),
+  };
 });
 jest.mock('expo-audio', () => ({
   createAudioPlayer: jest.fn(() => ({

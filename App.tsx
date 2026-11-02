@@ -1,12 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { StyleSheet, useWindowDimensions } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import ClinicScreen from './src/clinic/ClinicScreen';
 import ParentalGate from './src/gate/ParentalGate';
 import { initialRoute, routeReducer } from './src/logic/router';
+import { PRESETS } from './src/plush/spec';
 import DevScreen from './src/screens/DevScreen';
 import ParentScreen from './src/screens/ParentScreen';
 import PlaceholderScreen from './src/screens/PlaceholderScreen';
@@ -18,6 +20,9 @@ import { colors } from './src/ui/theme';
 export default function App() {
   const [route, dispatch] = useReducer(routeReducer, initialRoute);
   const { width, height } = useWindowDimensions();
+  // P1 plays the two demo presets, taking turns.
+  const [visits, setVisits] = useState(0);
+  const patient = visits % 2 === 0 ? PRESETS.bear : PRESETS.bunny;
 
   useEffect(() => {
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE).catch(() => {});
@@ -29,7 +34,10 @@ export default function App() {
     case 'title':
       screen = (
         <TitleScreen
-          onPlay={() => dispatch({ type: 'go', screen: 'clinic' })}
+          onPlay={() => {
+            setVisits((v) => v + 1);
+            dispatch({ type: 'go', screen: 'clinic' });
+          }}
           onStudio={() => dispatch({ type: 'go', screen: 'studio' })}
           onStickers={() => dispatch({ type: 'go', screen: 'stickers' })}
           onParent={() => dispatch({ type: 'gate', target: 'parent' })}
@@ -38,11 +46,7 @@ export default function App() {
       );
       break;
     case 'clinic':
-      screen = (
-        <PlaceholderScreen testID="clinic-screen" onHome={home} color={colors.mint}>
-          <HeartIcon size={160} />
-        </PlaceholderScreen>
-      );
+      screen = <ClinicScreen spec={patient} onExit={() => dispatch({ type: 'home' })} />;
       break;
     case 'studio':
       screen = (
