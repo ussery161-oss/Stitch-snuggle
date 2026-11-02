@@ -55,6 +55,8 @@ export interface SayOptions {
   interrupt?: boolean;
   /** Runs once when this line has finished (never for a line cleared by interrupt/stop). */
   onDone?: () => void;
+  /** Runs when this line starts playing (captions). */
+  onStart?: () => void;
 }
 
 /** A clip not seen playing this long after play() falls back to speech. */
@@ -75,6 +77,7 @@ interface Line {
   id: LineId;
   source: VoiceSource;
   onDone?: () => void;
+  onStart?: () => void;
 }
 
 interface Slot {
@@ -115,7 +118,7 @@ export class AudioService {
 
   /** Say a line now, or after the lines already queued (FIFO). */
   say(id: LineId, opts: SayOptions = {}): void {
-    const line: Line = { id, source: this.lookup(id), onDone: opts.onDone };
+    const line: Line = { id, source: this.lookup(id), onDone: opts.onDone, onStart: opts.onStart };
     if (opts.interrupt) {
       this.stop();
       this.start(line);
@@ -159,6 +162,7 @@ export class AudioService {
     const token = ++this.token;
     this.current = line;
     this.clearTimers();
+    line.onStart?.();
     if (line.source.kind === 'clip' && this.slots.length > 0) {
       this.stats.clips++;
       this.startClip(line, line.source.clip, token);

@@ -2,13 +2,22 @@
 // recorded, expo-speech otherwise).
 import { audio } from './audio';
 import type { SayOptions } from './AudioService';
-import type { LineId } from './lines';
+import { setCaption } from './captions';
+import { lineText, type LineId } from './lines';
 
 export function say(id: LineId, opts?: SayOptions): void {
-  audio().say(id, opts);
+  audio().say(id, {
+    ...opts,
+    onStart: () => setCaption(lineText(id)),
+    onDone: () => {
+      setCaption(null);
+      opts?.onDone?.();
+    },
+  });
 }
 
 /** Stop the voice and clear the queue (leaving a screen). */
 export function hush(): void {
   audio().stop();
+  setCaption(null);
 }

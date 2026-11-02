@@ -70,3 +70,33 @@ describe('app shell', () => {
     expect(screen.getByTestId('title-screen')).toBeTruthy();
   });
 });
+
+describe('app shell (phase 2)', () => {
+  beforeEach(() => jest.useFakeTimers());
+  afterEach(() => jest.useRealTimers());
+
+  it('boots through Title → Studio, Showcase and Sticker book, each with Home', async () => {
+    await render(<App />);
+    for (const [button, screenId] of [
+      ['title-studio', 'studio-screen'],
+      ['title-showcase', 'showcase-screen'],
+      ['title-stickers', 'stickers-screen'],
+    ]) {
+      await fireEvent.press(screen.getByTestId(button));
+      expect(screen.getByTestId(screenId)).toBeTruthy();
+      await fireEvent(screen.getByTestId('home-button'), 'pressIn');
+      await act(async () => {
+        jest.advanceTimersByTime(2000);
+      });
+      expect(screen.getByTestId('title-screen')).toBeTruthy();
+    }
+  });
+
+  it('captions (a parent setting) show the spoken line', async () => {
+    const { saveStore } = require('../src/storage/useSave');
+    saveStore.update((s: { settings: object }) => ({ ...s, settings: { ...s.settings, captions: true } }));
+    await render(<App />);
+    await fireEvent.press(screen.getByTestId('title-studio'));
+    expect(screen.getByTestId('caption-bar')).toHaveTextContent('Let’s make a plushie!');
+  });
+});

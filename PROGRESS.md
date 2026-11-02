@@ -90,7 +90,7 @@ https://github.com/ussery161-oss/Stitch-snuggle/compare/main...p1-core
 
 **Open questions:** (1) Overlay vs Multiply for the shade layer (above). (2) The fps reading from the iPad.
 
-## Phase 2 — `p2-studio` ▶
+## Phase 2 — `p2-studio` ✅
 | Section | Status | Commit |
 |---|---|---|
 | A. Save schema v1/v2 | ✅ | 49a0c3e |
@@ -99,10 +99,44 @@ https://github.com/ussery161-oss/Stitch-snuggle/compare/main...p1-core
 | D. Content pass + preset rules | ✅ | e092355 |
 | E. Entitlements, mock purchase, parent area | ✅ | 51afde0 (with F) |
 | F. Credits | ✅ | 51afde0 (with E: the credits page lives in the parent area) |
-| G. Showcase Room | ✅ | (this commit) |
-| Gate | ☐ | |
+| G. Showcase Room | ✅ | ce3a526 |
+| Gate | ✅ | (this commit, `P2-GATE`) |
 
-PR: https://github.com/ussery161-oss/Stitch-snuggle/compare/main...p2-studio (after Phase 1's PR merges, or compare against `p1-core`).
+### Phase 2 gate results
+- tsc clean, eslint clean, 202 tests green; `expo export` succeeds; boot smoke renders `<App/>` through Title → Clinic → Studio → Showcase → Sticker book → gate → Parent (plus Privacy, Credits, Dev).
+- Kids Category / COPPA: all pass (`docs-proposals/KIDS_CHECKLIST.md`, Phase 2 table).
+- **Visual check: pass** (`artifacts/visual/phase2/`): `presets.png` (all 8 presets; Unicorn with round-shiny eyes, Owl in blue with glasses, no bow tie/leaf/green), `showcase_scene.png` (8 shelves + hero on the podium, the tiny charm above it, as on the contact sheet), plus the Phase 1 renders re-made. Studio/Sticker book layouts are React Native views: please eyeball them on the iPad.
+
+### Phase 2 PR
+Compare: https://github.com/ussery161-oss/Stitch-snuggle/compare/p1-core...p2-studio (or against `main` once Phase 1 is merged).
+
+**Summary.** Save schema v2 with migrations and a corruption guard; Design Studio with 8 bases, colours both ways, patterns, eyes, accessories, 40 voiced names, Undo (20), Surprise me and the toy shelf (Play doctor / Edit); sticker book with earned stickers, pages, drag/pinch/rotate placement and cached plushie snapshots; all 8 presets with stories, damage sets, owners and the look-alike rules; demo/unlock rules with a mocked purchase; the full parent area with privacy and credits (verse, blessing, team, credits); the Showcase Room; captions.
+
+**Where the prompt and the docs/art differ:**
+1. Save schema: P2-A says `creations: PlushSpec[]`; creations are stored as `{id, spec, createdAt}` so the shelf, stickers and showcase can point at them.
+2. "Doll adds 4 hair styles": the r03 art has one hair shape per doll style (girl, boy). The Studio offers girl/boy and hair colours; 4 hair styles need art (AR-2).
+3. Stickers: the tray shows every earned sticker on any page (pages are scenes; tool stickers have no base page).
+4. CLAUDE.md mentions one charm (recovery room); P2-G adds the approved second one above the Showcase podium (prompt followed).
+5. P2-E and P2-F landed in one commit (`P2-E/F`) so the build stayed green; the credits page is part of the parent area.
+6. Music/SFX volume and captions are saved; there is no music or SFX audio yet, so the volume settings have nothing to control until audio lands.
+7. Showcase: drag or tap-then-tap both work for placing, moving, swapping and the podium.
+
+**New dependency:** `expo-file-system` (Expo module, in Expo Go) for the sticker snapshot cache.
+
+**For Researcher 2 to record (new in Phase 2):** the 40 names `name-teddy` … `name-bubbles` (text = the name, e.g. `name-bunbun` = "Bun-Bun"), `studio-hello` "Let’s make a plushie!", `studio-saved` "Saved to your shelf!", `shelf-full` "Your shelf is full!", `surprise` "Surprise!", `tab-base` "Pick a friend.", `tab-body` "Pick a shape.", `tab-colors` "Pick a color.", `tab-patterns` "Pick a pattern.", `tab-eyes` "Pick some eyes.", `tab-accessories` "Dress it up!", `tab-name` "Pick a name.", `story-kitty-1/2`, `story-puppy-1/2`, `story-unicorn-1/2`, `story-dino-1/2`, `story-owl-1/2`, `story-doll-1/2`, `story-creation`. Exact texts: `assets/audio/VOICE_IDS.md` (96 lines, all "to record").
+
+**iPad checklist for Mike (Phase 2)**
+- [ ] Studio: pick Bunny, make it tall, paint it pink with stars, add star eyes and a crown, pick a name, and Save (needs the mock unlock for stars/star eyes/crown; in the demo they wiggle with a padlock).
+- [ ] The dice and Undo work, and a doll can get a skin tone and hair colour.
+- [ ] Toy shelf, then Play doctor: your own plushie arrives hurt and you can fix it.
+- [ ] A sticker flies into the book. You can move it, make it bigger, and it's still there after you close and reopen the app.
+- [ ] Locked plushies show a padlock with no price and no nag. Parent area, then Unlock (mock), and everything opens.
+- [ ] Credits open with Ephesians 4:32, then the blessing line.
+- [ ] The privacy page says no data is collected.
+- [ ] Showcase Room: put 3 plushies on shelves, move one to the podium, close and reopen — they're still there.
+- [ ] Parent → Captions On: the spoken words appear at the bottom.
+
+**Open questions:** (1) Art for the 4 doll hair styles. (2) Music and SFX files (CC0) if wanted.
 
 ## Phase 3 — `p3-ship`
 ☐ not started
@@ -112,4 +146,4 @@ PR: https://github.com/ussery161-oss/Stitch-snuggle/compare/main...p2-studio (af
 - npm held back `@shopify/react-native-skia`'s postinstall (it downloads the native Skia libraries). Not needed for Expo Go, Jest or `expo export`; needed before a native build (Phase 3): `npm install-scripts approve @shopify/react-native-skia`.
 
 ## Next
-P2 phase gate.
+Phase 3: branch `p3-ship` from `p2-studio`, section A (real purchase with the Expo Go mock fallback).

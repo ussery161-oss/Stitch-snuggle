@@ -18,3 +18,18 @@ Updated at every phase gate (`docs/prompts/CONTINUOUS_BUILD.md`). Each line name
 | Faith kept subtle: only the wall charm in the child flow | ✅ pass | `__tests__/recoveryCharm.test.tsx` |
 
 Still to do in later phases: purchase/restore behind the gate (P2 mock, P3 StoreKit), privacy page, App Store privacy label "Data Not Collected", review notes explaining the gate (P3).
+
+## Phase 2 gate (branch `p2-studio`)
+| Check | Result | Enforced by |
+|---|---|---|
+| No network, no links (incl. credits: web addresses are plain text, no scheme) | ✅ pass | `__tests__/noNetwork.test.ts` |
+| No ads/analytics/tracking/account SDKs; only allowed deps (+ `expo-file-system` for sticker snapshots, an Expo module) | ✅ pass | `__tests__/kidsCategory.test.ts`, `__tests__/depsGuard.test.ts` |
+| No price / "buy" text outside the parent area (`src/screens/parent/`, `src/purchase/`) | ✅ pass | `__tests__/kidsCategory.test.ts` |
+| Locked items in the child flow show only a padlock (wiggle on tap); no price, buy button or nag | ✅ pass | `__tests__/studio.test.tsx`, `__tests__/stickers.test.tsx` |
+| Purchase, restore, settings, reset, delete creations, privacy and credits only behind the gate | ✅ pass | `__tests__/parentArea.test.tsx`, `__tests__/router.test.ts` |
+| Purchase is mocked (no store connection in P2) | ✅ pass | `__tests__/parentArea.test.tsx` |
+| Data stays on the device (one AsyncStorage save; sticker snapshots in the app's documents folder) | ✅ pass | `__tests__/kidsCategory.test.ts`, `__tests__/saveSchema.test.ts` |
+| Privacy page in the app: "This app collects no data. No ads, no tracking, no accounts, no internet." | ✅ pass | `__tests__/parentArea.test.tsx` |
+| Stickers are earned only (no currency, no random rewards) | ✅ pass | `__tests__/stickers.test.tsx` |
+| Faith: verse and blessing only in the parent-area credits; in the child flow only the two approved charms (recovery wall, above the Showcase podium) | ✅ pass | `__tests__/recoveryCharm.test.tsx`, `__tests__/parentArea.test.tsx` |
+| No reading needed: Studio tabs, names and plaque are voiced; captions are a parent option (off by default) | ✅ pass | `__tests__/studio.test.tsx`, `__tests__/appShell.test.tsx` |

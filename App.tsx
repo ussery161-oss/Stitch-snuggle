@@ -15,6 +15,7 @@ import CreditsScreen from './src/screens/parent/CreditsScreen';
 import ParentScreen, { AgeSetting } from './src/screens/parent/ParentScreen';
 import PrivacyScreen from './src/screens/parent/PrivacyScreen';
 import { saveStore, useSave } from './src/storage/useSave';
+import CaptionBar from './src/ui/CaptionBar';
 import type { AgeBand } from './src/clinic/visit';
 import TitleHero from './src/screens/TitleHero';
 import StudioScreen from './src/studio/StudioScreen';
@@ -130,6 +131,7 @@ export default function App() {
     <GestureHandlerRootView style={styles.root}>
       <SafeAreaProvider>
         {screen}
+        <CaptionBar enabled={settings.captions} />
         <StatusBar hidden />
       </SafeAreaProvider>
     </GestureHandlerRootView>
