@@ -117,7 +117,7 @@ describe('visual: recovery room', () => {
     const { RECOVERY_PLUSH_RECT, scenePoint } = require('../../src/clinic/helpers');
     const { CHARM_OPACITY, CHARM_SCENE_POS, charmSize, goldMatrix } = require('../../src/clinic/WallCharm');
     const { ColorMatrix } = require('@shopify/react-native-skia');
-    const layout = sceneLayout(W, H, RECOVERY_PLUSH_RECT);
+    const layout = sceneLayout(W, H, RECOVERY_PLUSH_RECT, { floorY: 1480 });
     const scene = await loadImage('ui/scenes/scene_recovery');
     const charm = await loadImage('ui/decor/wall_charm_heart_cross');
     const spec = PRESETS.bunny;
@@ -143,5 +143,33 @@ describe('visual: recovery room', () => {
       'recovery_scene.png',
     );
     expect(file).toContain('recovery_scene.png');
+  });
+});
+
+describe('visual: iPhone layout', () => {
+  beforeAll(() => useDiskArt());
+
+  it('keeps the plush on screen and standing on the cushion at 844×390', async () => {
+    const PW = 844;
+    const PH = 390;
+    const layout = sceneLayout(PW, PH, CLINIC_PLUSH_RECT);
+    const scene = await loadImage('ui/scenes/scene_clinic');
+    const spec = PRESETS.bear;
+    const set = bodySet('bear', 'tall');
+    const assets = await loadPlushAssets({ ...spec, body: 'tall' }, set, 0.6, 'smile');
+    const file = await renderPng(
+      <Group>
+        <Fill color="#E8F4EE" />
+        {scene ? <Image image={scene} x={layout.offsetX} y={layout.offsetY} width={SCENE_W * layout.scale} height={SCENE_H * layout.scale} fit="fill" /> : null}
+        <Group transform={[{ translateX: layout.plush.x }, { translateY: layout.plush.y }, { scale: layout.plush.size / 1024 }]}>
+          <PlushDrawing set={set} spec={{ ...spec, body: 'tall' }} assets={assets} />
+        </Group>
+      </Group>,
+      PW,
+      PH,
+      'clinic_iphone.png',
+    );
+    expect(layout.plush.y).toBeGreaterThanOrEqual(-1);
+    expect(file).toContain('clinic_iphone.png');
   });
 });

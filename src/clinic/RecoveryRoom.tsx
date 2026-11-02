@@ -23,7 +23,7 @@ export function waveTransform(anchor: { x: number; y: number }, phase: number): 
 
 export default function RecoveryRoom({ spec, repairs, onDone }: { spec: PlushSpec; repairs: readonly Repair[]; onDone: () => void }) {
   const { width, height, isPhone } = useLayout();
-  const layout = useMemo(() => sceneLayout(width, height, RECOVERY_PLUSH_RECT), [width, height]);
+  const layout = useMemo(() => sceneLayout(width, height, RECOVERY_PLUSH_RECT, { floorY: 1480 }), [width, height]);
   const reduce = useReducedMotion();
   const wave = useSharedValue(0);
   const set = bodySet(spec.base, spec.body, spec.style);

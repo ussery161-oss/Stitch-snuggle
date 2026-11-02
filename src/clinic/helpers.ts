@@ -43,19 +43,23 @@ export interface SceneLayout {
 
 /**
  * Covers the screen with the scene and places the plush at its scene rect. On wide phones the
- * cover crops the top and bottom, so the plush is shrunk to fit and kept standing on the floor.
+ * cover crops the scene vertically: it is anchored so the floor (scene y `floorY`) stays on screen,
+ * and the plush is shrunk to fit and kept standing where the scene puts its feet.
  */
-export function sceneLayout(width: number, height: number, plushRect: SceneRect, footY = 0.93): SceneLayout {
+export function sceneLayout(width: number, height: number, plushRect: SceneRect, opts: { footY?: number; floorY?: number } = {}): SceneLayout {
+  const footY = opts.footY ?? 0.93;
+  const floorY = opts.floorY ?? 1400;
   const scale = Math.max(width / SCENE_W, height / SCENE_H);
   const offsetX = (width - SCENE_W * scale) / 2;
-  const offsetY = (height - SCENE_H * scale) / 2;
+  // Show the floor: the scene's floorY sits at the bottom edge (never past the scene's own edges).
+  const offsetY = Math.max(height - SCENE_H * scale, Math.min(0, height - floorY * scale));
   let size = plushRect.size * scale;
   let x = offsetX + plushRect.x * scale;
   let y = offsetY + plushRect.y * scale;
   const maxSize = height * 0.94;
   if (size > maxSize || y < 0) {
-    // Keep the feet where the scene puts them (or on screen), and the centre x.
-    const feet = Math.min(height * 0.985, y + size * footY);
+    // Keep the feet where the scene puts them (on screen), and the centre x.
+    const feet = Math.min(height * 0.95, y + size * footY);
     const cx = x + size / 2;
     size = Math.min(size, maxSize, feet / footY);
     x = cx - size / 2;
