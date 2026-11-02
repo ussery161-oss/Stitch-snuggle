@@ -195,14 +195,14 @@ export function Triage({ visit, layout, found, onSpot, onDone }: { visit: Visit;
 
 // ---------- Go home ----------
 
-export function GoHome({ visit, layout, onDone, spec, repairs }: { visit: Visit; layout: SceneLayout; onDone: () => void; spec: PlushSpec; repairs: readonly Repair[] }) {
+export function GoHome({ visit, layout, onDone, spec, repairs, owner: ownerId }: { visit: Visit; layout: SceneLayout; onDone: () => void; spec: PlushSpec; repairs: readonly Repair[]; owner?: string }) {
   const { width } = useLayout();
   const reduce = useReducedMotion();
   const walk = useSharedValue(reduce ? 1 : 0);
   const hug = useSharedValue(0);
   const done = useRef(false);
   const foot = footOf(layout);
-  const owner = OWNERS[visit.seed % OWNERS.length];
+  const owner = ownerId ? `ui/owners/${ownerId}` : OWNERS[visit.seed % OWNERS.length];
   const ownerSize = layout.plush.size * 0.62;
   const standX = Math.min(width - ownerSize * 0.35, layout.plush.x + layout.plush.size * 0.86);
   const finish = useCallback(() => {

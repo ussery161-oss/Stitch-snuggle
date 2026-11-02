@@ -45,6 +45,10 @@ interface Props {
   spec: PlushSpec;
   /** Set when the patient is one of the child's creations (its first heal earns a sticker). */
   creationId?: string;
+  /** The preset's story lines, damage set and owner (P2-D). */
+  stories?: readonly string[];
+  kinds?: readonly DamageKind[];
+  owner?: string;
   age?: AgeBand;
   seed?: number;
   onExit: () => void;
@@ -52,8 +56,8 @@ interface Props {
   renderRecovery?: (visit: Visit, onDone: () => void) => ReactElement;
 }
 
-export default function ClinicScreen({ spec, creationId, age = '3-5', seed, onExit, renderRecovery }: Props) {
-  const visit = useMemo(() => createVisit(spec, seed ?? randomSeed(), { age, kinds: CLINIC_KINDS }), [spec, seed, age]);
+export default function ClinicScreen({ spec, creationId, stories, kinds, owner, age = '3-5', seed, onExit, renderRecovery }: Props) {
+  const visit = useMemo(() => createVisit(spec, seed ?? randomSeed(), { age, kinds: kinds ?? CLINIC_KINDS, stories: creationId ? ['story-creation'] : stories }), [spec, seed, age, kinds, stories, creationId]);
   const [flow, dispatch] = useReducer((s: FlowState, e: FlowEvent) => flowReducer(visit, s, e), initialFlow);
   const { width, height } = useLayout();
   const insets = useSafeAreaInsets();
@@ -111,7 +115,7 @@ export default function ClinicScreen({ spec, creationId, age = '3-5', seed, onEx
       break;
     }
     case 'gohome':
-      body = <GoHome visit={visit} layout={layout} onDone={homeDone} spec={current} repairs={repairs} />;
+      body = <GoHome visit={visit} layout={layout} onDone={homeDone} spec={current} repairs={repairs} owner={owner} />;
       break;
     case 'recovery':
       body = renderRecovery ? renderRecovery(visit, recoveryDone) : <RecoveryRoom spec={current} repairs={repairs} onDone={recoveryDone} earned={earned} />;

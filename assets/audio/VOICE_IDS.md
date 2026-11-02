@@ -24,6 +24,19 @@ Lines without a clip are spoken by the device voice (expo-speech) until they are
 | `story-bear-2` | Teddy had a muddy picnic! | to record |
 | `story-bunny-1` | Bun-Bun fell in a puddle! | to record |
 | `story-bunny-2` | Bun-Bun got caught on a fence! | to record |
+| `story-kitty-1` | Mochi got tangled in the yarn basket! | to record |
+| `story-kitty-2` | Mochi climbed the curtains and slipped! | to record |
+| `story-puppy-1` | Biscuit played tug-of-war a little too hard! | to record |
+| `story-puppy-2` | Biscuit dug in the garden! | to record |
+| `story-unicorn-1` | Sunny galloped through a muddy meadow! | to record |
+| `story-unicorn-2` | Sunny bumped into a rainbow! | to record |
+| `story-dino-1` | Pebble stomped through the sandbox! | to record |
+| `story-dino-2` | Pebble had a big dino adventure! | to record |
+| `story-owl-1` | Hazel flew into a windy tree! | to record |
+| `story-owl-2` | Hazel stayed up all night reading! | to record |
+| `story-doll-1` | Rosie had a tea party splash! | to record |
+| `story-doll-2` | Rosie went down the slide too fast! | to record |
+| `story-creation` | Your friend needs a little care! | to record |
 | `story-generic` | This little friend needs your help! | to record |
 | `hint-find-spots` | Tap the sore spots. | to record |
 | `hint-stitch` | Follow the dots to sew. | to record |

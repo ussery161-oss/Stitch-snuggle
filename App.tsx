@@ -8,7 +8,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import ClinicScreen from './src/clinic/ClinicScreen';
 import ParentalGate from './src/gate/ParentalGate';
 import { initialRoute, routeReducer } from './src/logic/router';
-import { PRESETS } from './src/plush/spec';
+import { playablePresets } from './src/content/presets';
+import { DEMO } from './src/logic/entitlements';
 import DevScreen from './src/screens/DevScreen';
 import ParentScreen, { AgeSetting } from './src/screens/ParentScreen';
 import { saveStore, useSave } from './src/storage/useSave';
@@ -23,12 +24,14 @@ import { colors } from './src/ui/theme';
 export default function App() {
   const [route, dispatch] = useReducer(routeReducer, initialRoute);
   const { width, height } = useWindowDimensions();
-  // P1 plays the two demo presets, taking turns.
-  const [visits, setVisits] = useState(0);
-  // Play doctor from the toy shelf sends a creation; otherwise the presets take turns.
-  const [creationPatient, setCreationPatient] = useState<Creation | null>(null);
-  const patient = creationPatient?.spec ?? (visits % 2 === 0 ? PRESETS.bear : PRESETS.bunny);
   const save = useSave();
+  // Play: the playable presets take turns (demo: Bear and Bunny; unlocked: all 8). Play doctor
+  // from the toy shelf sends a creation instead.
+  const [visits, setVisits] = useState(0);
+  const [creationPatient, setCreationPatient] = useState<Creation | null>(null);
+  const playable = playablePresets(save.entitlement.unlocked, DEMO.presets);
+  const preset = playable[visits % playable.length];
+  const patient = creationPatient?.spec ?? preset.spec;
   useEffect(() => {
     if (!saveStore.isLoaded) void saveStore.load();
   }, []);
@@ -58,7 +61,17 @@ export default function App() {
       );
       break;
     case 'clinic':
-      screen = <ClinicScreen spec={patient} creationId={creationPatient?.id} age={settings.age} onExit={() => dispatch({ type: 'home' })} />;
+      screen = (
+        <ClinicScreen
+          spec={patient}
+          creationId={creationPatient?.id}
+          stories={creationPatient ? undefined : preset.stories}
+          kinds={creationPatient ? undefined : preset.damage}
+          owner={creationPatient ? undefined : preset.owner}
+          age={settings.age}
+          onExit={() => dispatch({ type: 'home' })}
+        />
+      );
       break;
     case 'studio':
       screen = (

@@ -81,7 +81,7 @@ function spotsFor(set: BodySet, kind: DamageKind) {
  * The visit. `kinds` limits which damage kinds may appear (every kind by default). At least one
  * step, at most stepCap(age); each chosen step gets one or two damages.
  */
-export function createVisit(spec: PlushSpec, seed: number, opts: { age?: AgeBand; kinds?: readonly DamageKind[] } = {}): Visit {
+export function createVisit(spec: PlushSpec, seed: number, opts: { age?: AgeBand; kinds?: readonly DamageKind[]; stories?: readonly string[] } = {}): Visit {
   const rng = createRng(seed);
   const set = bodySet(spec.base, spec.body, spec.style);
   const kinds = (opts.kinds ?? ALL_DAMAGE).filter((k) => {
@@ -123,7 +123,7 @@ export function createVisit(spec: PlushSpec, seed: number, opts: { age?: AgeBand
     }
   }
   const steps = STEP_ORDER.filter((s) => damages.some((d) => STEP_FOR[d.kind] === s));
-  const stories = STORIES[spec.base] ?? ['story-generic'];
+  const stories = opts.stories && opts.stories.length > 0 ? opts.stories : STORIES[spec.base] ?? ['story-generic'];
   return { plush: spec, damages, storyId: rng.pick(stories), steps, seed };
 }
 

@@ -54,3 +54,27 @@ describe('visual: plush compositor', () => {
     for (const l of loaded) expect(l.assets.layers.size).toBeGreaterThan(20);
   });
 });
+
+describe('visual: the 8 presets', () => {
+  beforeAll(() => useDiskArt());
+
+  it('renders every preset (Unicorn and Owl follow the preset rules)', async () => {
+    const { PRESETS_V1 } = require('../../src/content/presets');
+    const loaded: { spec: PlushSpec; assets: PlushAssets }[] = [];
+    for (const p of PRESETS_V1 as { spec: PlushSpec }[]) loaded.push({ spec: p.spec, assets: await loadPlushAssets(p.spec, bodySet(p.spec.base, p.spec.body, p.spec.style), 0.6, 'smile') });
+    const file = await renderPng(
+      <Group>
+        <Fill color="#F0E4D4" />
+        {loaded.map(({ spec, assets }, i) => (
+          <Group key={i} transform={[{ translateX: (i % 4) * CELL }, { translateY: Math.floor(i / 4) * CELL }, { scale: CELL / 1024 }]}>
+            <PlushDrawing set={bodySet(spec.base, spec.body, spec.style)} spec={spec} assets={assets} />
+          </Group>
+        ))}
+      </Group>,
+      4 * CELL,
+      2 * CELL,
+      'presets.png',
+    );
+    expect(file).toContain('presets.png');
+  });
+});

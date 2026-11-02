@@ -95,8 +95,8 @@ https://github.com/ussery161-oss/Stitch-snuggle/compare/main...p1-core
 |---|---|---|
 | A. Save schema v1/v2 | ✅ | 49a0c3e |
 | B. Design Studio | ✅ | 93b400c |
-| C. Sticker book | ✅ | (this commit) |
-| D. Content pass + preset rules | ☐ | |
+| C. Sticker book | ✅ | 5ebfe2a |
+| D. Content pass + preset rules | ✅ | (this commit) |
 | E. Entitlements, mock purchase, parent area | ☐ | |
 | F. Credits | ☐ | |
 | G. Showcase Room | ☐ | |
@@ -112,4 +112,4 @@ PR: https://github.com/ussery161-oss/Stitch-snuggle/compare/main...p2-studio (af
 - npm held back `@shopify/react-native-skia`'s postinstall (it downloads the native Skia libraries). Not needed for Expo Go, Jest or `expo export`; needed before a native build (Phase 3): `npm install-scripts approve @shopify/react-native-skia`.
 
 ## Next
-P2-D content pass (8 presets, owners, stories, seasonal slots, preset rules).
+P2-E entitlements, mock purchase and the parent area.
