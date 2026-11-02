@@ -109,3 +109,39 @@ describe('visual: care step overlays', () => {
     expect(file).toContain('care_overlays.png');
   });
 });
+
+describe('visual: recovery room', () => {
+  beforeAll(() => useDiskArt());
+
+  it('renders the recovery room with the plush on the rug and the tiny gold charm', async () => {
+    const { RECOVERY_PLUSH_RECT, scenePoint } = require('../../src/clinic/helpers');
+    const { CHARM_OPACITY, CHARM_SCENE_POS, charmSize, goldMatrix } = require('../../src/clinic/WallCharm');
+    const { ColorMatrix } = require('@shopify/react-native-skia');
+    const layout = sceneLayout(W, H, RECOVERY_PLUSH_RECT);
+    const scene = await loadImage('ui/scenes/scene_recovery');
+    const charm = await loadImage('ui/decor/wall_charm_heart_cross');
+    const spec = PRESETS.bunny;
+    const set = bodySet('bunny', 'round');
+    const assets = await loadPlushAssets(spec, set, 0.8, 'big_happy');
+    const at = scenePoint(layout, CHARM_SCENE_POS);
+    const size = charmSize(false);
+    const file = await renderPng(
+      <Group>
+        <Fill color="#E9E1F5" />
+        {scene ? <Image image={scene} x={layout.offsetX} y={layout.offsetY} width={SCENE_W * layout.scale} height={SCENE_H * layout.scale} fit="fill" /> : null}
+        <Group transform={[{ translateX: layout.plush.x }, { translateY: layout.plush.y }, { scale: layout.plush.size / 1024 }]}>
+          <PlushDrawing set={set} spec={spec} assets={assets} />
+        </Group>
+        <Group opacity={CHARM_OPACITY}>
+          <Image image={charm} x={at.x - size / 2} y={at.y - size / 2} width={size} height={size} fit="contain">
+            <ColorMatrix matrix={goldMatrix()} />
+          </Image>
+        </Group>
+      </Group>,
+      W,
+      H,
+      'recovery_scene.png',
+    );
+    expect(file).toContain('recovery_scene.png');
+  });
+});

@@ -10,8 +10,8 @@ Driven by `docs/prompts/CONTINUOUS_BUILD.md`. ☐ not started · ▶ in progress
 | D. Audio | ✅ | 2cdb608 |
 | E. Plush renderer | ✅ | c897e47 |
 | F. Clinic, Stitch, Wash | ✅ | 2b8f7c7 |
-| G. Patch, Re-stuff, Brush, Dress | ✅ | (this commit) |
-| H. Recovery room + charm | ☐ | |
+| G. Patch, Re-stuff, Brush, Dress | ✅ | 267cfa6 |
+| H. Recovery room + charm | ✅ | (this commit) |
 | Gate | ☐ | |
 
 ## Phase 2 — `p2-studio`
@@ -28,4 +28,4 @@ Driven by `docs/prompts/CONTINUOUS_BUILD.md`. ☐ not started · ▶ in progress
 - Phase 1: https://github.com/ussery161-oss/Stitch-snuggle/compare/main...p1-core
 
 ## Next
-P1-H recovery room and the heart-and-cross charm.
+P1 phase gate (KIDS_CHECKLIST, visual check, PR).

@@ -138,6 +138,12 @@ describe('clinic flow', () => {
     expect(said()).toContain('Every toy is loved!');
     expect(said()).toContain('Thank you!');
     expect(said().filter((x) => x === 'All better!')).toHaveLength(1);
+    // The recovery room, with the tiny charm on the wall, then back to the title after 3 s.
+    if (!onExit.mock.calls.length) {
+      expect(screen.getByTestId('recovery-room')).toBeTruthy();
+      expect(screen.getByTestId('wall-charm', { includeHiddenElements: true })).toBeTruthy();
+      await tick(3100);
+    }
     expect(onExit).toHaveBeenCalled();
   }, 30000);
 

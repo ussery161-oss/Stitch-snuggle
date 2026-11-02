@@ -13,6 +13,7 @@ import { useLayout } from '../ui/theme';
 import { flowReducer, initialFlow, type FlowEvent, type FlowState } from './flow';
 import { CLINIC_PLUSH_RECT, sceneLayout } from './helpers';
 import { Arrival, GoHome, Triage } from './phases';
+import RecoveryRoom from './RecoveryRoom';
 import { addRepair, type Repair } from './snap';
 import BrushStep from './steps/BrushStep';
 import DressStep from './steps/DressStep';
@@ -43,7 +44,7 @@ interface Props {
   age?: AgeBand;
   seed?: number;
   onExit: () => void;
-  /** The recovery room between Go home and the title (P1-H). */
+  /** Replaces the recovery room (tests). */
   renderRecovery?: (visit: Visit, onDone: () => void) => ReactElement;
 }
 
@@ -68,9 +69,8 @@ export default function ClinicScreen({ spec, age = '3-5', seed, onExit, renderRe
   const recoveryDone = useCallback(() => dispatch({ type: 'recoveryDone' }), []);
 
   useEffect(() => {
-    if (flow.phase === 'recovery' && !renderRecovery) recoveryDone();
     if (flow.phase === 'finished') onExit();
-  }, [flow.phase, onExit, renderRecovery, recoveryDone]);
+  }, [flow.phase, onExit]);
 
   // A step with no screen yet is passed over (never a dead end).
   const missingStep = flow.phase === 'care' && !STEP_COMPONENTS[visit.steps[flow.step]];
@@ -95,7 +95,7 @@ export default function ClinicScreen({ spec, age = '3-5', seed, onExit, renderRe
       body = <GoHome visit={visit} layout={layout} onDone={homeDone} spec={current} repairs={repairs} />;
       break;
     case 'recovery':
-      body = renderRecovery ? renderRecovery(visit, recoveryDone) : null;
+      body = renderRecovery ? renderRecovery(visit, recoveryDone) : <RecoveryRoom spec={current} repairs={repairs} onDone={recoveryDone} />;
       break;
     default:
       body = null;
