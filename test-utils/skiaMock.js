@@ -66,4 +66,5 @@ module.exports = {
   rrect: (r, rx, ry) => ({ rect: r, rx, ry }),
   vec: (x, y) => ({ x, y }),
   makeImageFromView: jest.fn(async () => null),
+  drawAsImage: jest.fn(async () => null),
 };

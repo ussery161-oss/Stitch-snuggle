@@ -44,3 +44,29 @@ jest.mock('expo-audio', () => ({
   setAudioModeAsync: jest.fn(() => Promise.resolve()),
 }));
 jest.mock('@react-native-async-storage/async-storage', () => require('@react-native-async-storage/async-storage/jest/async-storage-mock'));
+jest.mock('expo-file-system', () => {
+  // An in-memory file system (sticker snapshots).
+  const files = new Map();
+  const join = (parts) => parts.map((p) => (typeof p === 'string' ? p : p.uri)).join('/');
+  class Directory {
+    constructor(...parts) {
+      this.uri = join(parts);
+    }
+    get exists() {
+      return true;
+    }
+    create() {}
+  }
+  class File {
+    constructor(...parts) {
+      this.uri = join(parts);
+    }
+    get exists() {
+      return files.has(this.uri);
+    }
+    write(bytes) {
+      files.set(this.uri, bytes);
+    }
+  }
+  return { Directory, File, Paths: { document: new Directory('file:///docs'), cache: new Directory('file:///cache') } };
+});

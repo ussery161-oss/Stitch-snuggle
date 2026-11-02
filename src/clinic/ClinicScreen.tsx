@@ -1,13 +1,15 @@
 // The clinic: arrival → triage → the care steps this visit needs (fixed order) → go home →
 // recovery room → back to the title. A row of step icons shows progress; Home is always there.
 // There is nothing to fail: every phase finishes by itself, by progress, or with the done heart.
-import { useCallback, useEffect, useMemo, useReducer, useState, type ReactElement } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState, type ReactElement } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { hush } from '../audio/speak';
 import { randomSeed } from '../logic/rng';
 import type { AccessoryId, DamageKind, PlushSpec } from '../plush/types';
+import { earn } from '../stickers/stickers';
+import { saveStore } from '../storage/useSave';
 import HomeButton from '../ui/HomeButton';
 import { useLayout } from '../ui/theme';
 import { flowReducer, initialFlow, type FlowEvent, type FlowState } from './flow';
@@ -41,6 +43,8 @@ export const CLINIC_KINDS: readonly DamageKind[] = ALL_DAMAGE;
 
 interface Props {
   spec: PlushSpec;
+  /** Set when the patient is one of the child's creations (its first heal earns a sticker). */
+  creationId?: string;
   age?: AgeBand;
   seed?: number;
   onExit: () => void;
@@ -48,7 +52,7 @@ interface Props {
   renderRecovery?: (visit: Visit, onDone: () => void) => ReactElement;
 }
 
-export default function ClinicScreen({ spec, age = '3-5', seed, onExit, renderRecovery }: Props) {
+export default function ClinicScreen({ spec, creationId, age = '3-5', seed, onExit, renderRecovery }: Props) {
   const visit = useMemo(() => createVisit(spec, seed ?? randomSeed(), { age, kinds: CLINIC_KINDS }), [spec, seed, age]);
   const [flow, dispatch] = useReducer((s: FlowState, e: FlowEvent) => flowReducer(visit, s, e), initialFlow);
   const { width, height } = useLayout();
@@ -59,6 +63,21 @@ export default function ClinicScreen({ spec, age = '3-5', seed, onExit, renderRe
   const [outfit, setOutfit] = useState<AccessoryId[] | null>(null);
   const current = useMemo<PlushSpec>(() => (outfit ? { ...visit.plush, accessories: outfit } : visit.plush), [visit.plush, outfit]);
   const onRepair = useCallback((r: Repair) => setRepairs((list) => addRepair(list, r)), []);
+  // Stickers: awarded once, when the plushie goes home.
+  const [earned, setEarned] = useState<string[]>([]);
+  const awarded = useRef(false);
+  useEffect(() => {
+    if (flow.phase !== 'recovery' || awarded.current) return;
+    awarded.current = true;
+    const now = new Date().toISOString();
+    let added: string[] = [];
+    saveStore.update((s) => {
+      const r = earn(s.stickers, { presetBase: creationId ? undefined : spec.base, creationId, steps: visit.steps }, now);
+      added = r.added;
+      return { ...s, stickers: r.stickers };
+    });
+    setEarned(added);
+  }, [flow.phase, creationId, spec.base, visit.steps]);
 
   useEffect(() => () => hush(), []);
   const stepDone = useCallback(() => dispatch({ type: 'stepDone' }), []);
@@ -95,7 +114,7 @@ export default function ClinicScreen({ spec, age = '3-5', seed, onExit, renderRe
       body = <GoHome visit={visit} layout={layout} onDone={homeDone} spec={current} repairs={repairs} />;
       break;
     case 'recovery':
-      body = renderRecovery ? renderRecovery(visit, recoveryDone) : <RecoveryRoom spec={current} repairs={repairs} onDone={recoveryDone} />;
+      body = renderRecovery ? renderRecovery(visit, recoveryDone) : <RecoveryRoom spec={current} repairs={repairs} onDone={recoveryDone} earned={earned} />;
       break;
     default:
       body = null;

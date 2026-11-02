@@ -12,6 +12,7 @@ import { RECOVERY_PLUSH_RECT, sceneLayout, scenePoint } from './helpers';
 import type { Repair } from './snap';
 import ClinicStage from './ui/ClinicStage';
 import WallCharm, { CHARM_SCENE_POS } from './WallCharm';
+import StickerFly from '../stickers/StickerFly';
 
 export const RECOVERY_MS = 3000;
 
@@ -21,7 +22,7 @@ export function waveTransform(anchor: { x: number; y: number }, phase: number): 
   return [{ translateX: anchor.x }, { translateY: anchor.y }, { rotate: -0.55 - 0.35 * phase }, { translateX: -anchor.x }, { translateY: -anchor.y }];
 }
 
-export default function RecoveryRoom({ spec, repairs, onDone }: { spec: PlushSpec; repairs: readonly Repair[]; onDone: () => void }) {
+export default function RecoveryRoom({ spec, repairs, onDone, earned = [] }: { spec: PlushSpec; repairs: readonly Repair[]; onDone: () => void; earned?: readonly string[] }) {
   const { width, height, isPhone } = useLayout();
   const layout = useMemo(() => sceneLayout(width, height, RECOVERY_PLUSH_RECT, { floorY: 1480 }), [width, height]);
   const reduce = useReducedMotion();
@@ -43,6 +44,7 @@ export default function RecoveryRoom({ spec, repairs, onDone }: { spec: PlushSpe
     <View style={StyleSheet.absoluteFill} testID="recovery-room">
       <ClinicStage scene="scene_recovery" layout={layout} spec={spec} repairs={repairs} plush={{ mouth: 'big_happy', partTransforms }} background="#E9E1F5" />
       <WallCharm x={charm.x} y={charm.y} isPhone={isPhone} />
+      <StickerFly ids={earned} />
     </View>
   );
 }

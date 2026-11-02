@@ -13,12 +13,11 @@ import DevScreen from './src/screens/DevScreen';
 import ParentScreen, { AgeSetting } from './src/screens/ParentScreen';
 import { saveStore, useSave } from './src/storage/useSave';
 import type { AgeBand } from './src/clinic/visit';
-import PlaceholderScreen from './src/screens/PlaceholderScreen';
 import TitleHero from './src/screens/TitleHero';
 import StudioScreen from './src/studio/StudioScreen';
+import StickerBookScreen from './src/stickers/StickerBookScreen';
 import type { Creation } from './src/storage/schema';
 import TitleScreen from './src/screens/TitleScreen';
-import { HeartIcon } from './src/ui/Icons';
 import { colors } from './src/ui/theme';
 
 export default function App() {
@@ -59,7 +58,7 @@ export default function App() {
       );
       break;
     case 'clinic':
-      screen = <ClinicScreen spec={patient} age={settings.age} onExit={() => dispatch({ type: 'home' })} />;
+      screen = <ClinicScreen spec={patient} creationId={creationPatient?.id} age={settings.age} onExit={() => dispatch({ type: 'home' })} />;
       break;
     case 'studio':
       screen = (
@@ -74,11 +73,7 @@ export default function App() {
       );
       break;
     case 'stickers':
-      screen = (
-        <PlaceholderScreen testID="stickers-screen" onHome={home} color={colors.sky}>
-          <HeartIcon size={160} color={colors.lavender} />
-        </PlaceholderScreen>
-      );
+      screen = <StickerBookScreen onHome={home} />;
       break;
     case 'gate':
       screen = <ParentalGate onPass={() => dispatch({ type: 'gatePassed' })} onCancel={() => dispatch({ type: 'gateCancelled' })} />;
