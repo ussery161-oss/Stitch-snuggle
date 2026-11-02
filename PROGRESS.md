@@ -141,8 +141,8 @@ Compare: https://github.com/ussery161-oss/Stitch-snuggle/compare/p1-core...p2-st
 ## Phase 3 — `p3-ship` ▶
 | Section | Status | Commit |
 |---|---|---|
-| A. Real purchase (expo-iap, StoreKit 2) | ✅ | (this commit) |
-| B. EAS profiles (no builds started) | ☐ | |
+| A. Real purchase (expo-iap, StoreKit 2) | ✅ | 364c539 |
+| B. EAS profiles (no builds started) | ✅ | (this commit) |
 | C. Polish and compliance | ☐ | |
 | Gate | ☐ | |
 
@@ -151,4 +151,4 @@ Compare: https://github.com/ussery161-oss/Stitch-snuggle/compare/p1-core...p2-st
 - npm held back `@shopify/react-native-skia`'s postinstall (it downloads the native Skia libraries). Not needed for Expo Go, Jest or `expo export`; needed before a native build (Phase 3): `npm install-scripts approve @shopify/react-native-skia`.
 
 ## Next
-P3-B eas.json.
+P3-C polish and compliance.
