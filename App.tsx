@@ -1,20 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { useEffect, useReducer } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, useWindowDimensions } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import ParentalGate from './src/gate/ParentalGate';
 import { initialRoute, routeReducer } from './src/logic/router';
+import DevScreen from './src/screens/DevScreen';
 import ParentScreen from './src/screens/ParentScreen';
 import PlaceholderScreen from './src/screens/PlaceholderScreen';
+import TitleHero from './src/screens/TitleHero';
 import TitleScreen from './src/screens/TitleScreen';
 import { HeartIcon, StudioIcon } from './src/ui/Icons';
 import { colors } from './src/ui/theme';
 
 export default function App() {
   const [route, dispatch] = useReducer(routeReducer, initialRoute);
+  const { width, height } = useWindowDimensions();
 
   useEffect(() => {
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE).catch(() => {});
@@ -30,6 +33,7 @@ export default function App() {
           onStudio={() => dispatch({ type: 'go', screen: 'studio' })}
           onStickers={() => dispatch({ type: 'go', screen: 'stickers' })}
           onParent={() => dispatch({ type: 'gate', target: 'parent' })}
+          hero={<TitleHero size={Math.round(Math.min(width, height) * 0.42)} />}
         />
       );
       break;
@@ -61,11 +65,7 @@ export default function App() {
       screen = <ParentScreen onClose={home} onDev={() => dispatch({ type: 'parentNav', screen: 'dev' })} />;
       break;
     case 'dev':
-      screen = (
-        <PlaceholderScreen testID="dev-screen" onHome={() => dispatch({ type: 'parentNav', screen: 'parent' })}>
-          <StudioIcon size={120} />
-        </PlaceholderScreen>
-      );
+      screen = <DevScreen onBack={() => dispatch({ type: 'parentNav', screen: 'parent' })} />;
       break;
   }
 

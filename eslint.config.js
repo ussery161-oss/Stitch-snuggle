@@ -10,6 +10,6 @@ module.exports = defineConfig([
     rules: { '@typescript-eslint/no-require-imports': 'off' },
   },
   {
-    ignores: ['dist/*', 'artifacts/*', 'node_modules/*', 'src/art/manifest.generated.ts', 'src/audio/voiceManifest.generated.ts'],
+    ignores: ['dist/*', 'artifacts/*', 'node_modules/*', 'src/**/*.generated.ts'],
   },
 ]);

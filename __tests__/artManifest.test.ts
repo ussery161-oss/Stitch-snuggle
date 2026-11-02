@@ -42,6 +42,19 @@ describe('art manifest', () => {
     expect(fs.readFileSync(MANIFEST, 'utf8') === fresh).toBe(true);
   });
 
+  it('the plush layer bounds are in sync (run `npm run gen:art` if this fails)', () => {
+    const fresh = execFileSync(
+      process.execPath,
+      [
+        '--input-type=module',
+        '-e',
+        "import { boundedFiles, alphaBounds, boundsSource } from './scripts/gen-art-manifest.mjs'; const e = []; for (const f of boundedFiles()) e.push([f, await alphaBounds(f)]); process.stdout.write(boundsSource(e));",
+      ],
+      { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 },
+    );
+    expect(fs.readFileSync(path.join(ROOT, 'src', 'art', 'bounds.generated.ts'), 'utf8') === fresh).toBe(true);
+  }, 120000);
+
   it('lists every PNG under assets/art', () => {
     const { ART_IMAGES } = require('../src/art/manifest.generated');
     const pngs = files.filter((f) => f.endsWith('.png'));

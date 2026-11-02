@@ -16,7 +16,11 @@ jest.mock('expo-screen-orientation', () => ({
 // Reanimated 4 / worklets: the libraries' own Jest mocks (shared values hold plain values,
 // animations jump to their end value).
 jest.mock('react-native-worklets', () => require('react-native-worklets/lib/module/mock'));
-jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'));
+jest.mock('react-native-reanimated', () => {
+  const mock = require('react-native-reanimated/mock');
+  // The library mock leaves these out ("ADD ME IF NEEDED").
+  return { ...mock, useReducedMotion: () => false, useFrameCallback: () => ({ setActive: () => {}, isActive: false, callbackId: 0 }) };
+});
 jest.mock('expo-audio', () => ({
   createAudioPlayer: jest.fn(() => ({
     replace: jest.fn(),

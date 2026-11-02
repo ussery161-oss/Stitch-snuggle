@@ -11,7 +11,8 @@
     "gen:art": "node scripts/gen-art-manifest.mjs",
     "gen:voice": "node scripts/gen-voice-manifest.mjs",
     "lint": "eslint . --max-warnings=0",
-    "gen:voice-ids": "node scripts/gen-voice-ids.mjs"
+    "gen:voice-ids": "node scripts/gen-voice-ids.mjs",
+    "visual": "jest -c jest.visual.config.js"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
@@ -42,6 +43,9 @@
     "preset": "jest-expo",
     "setupFiles": [
       "./jest.setup.js"
+    ],
+    "testMatch": [
+      "<rootDir>/__tests__/**/*.test.ts?(x)"
     ]
   },
   "overrides": {

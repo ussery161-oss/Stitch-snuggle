@@ -7,8 +7,8 @@ Driven by `docs/prompts/CONTINUOUS_BUILD.md`. ☐ not started · ▶ in progress
 | A. Scaffold | ✅ | 3f5761d |
 | B. Guard tests | ✅ | 15c2d28 |
 | C. Shell, nav, home, gate | ✅ | ca40785 |
-| D. Audio | ✅ | (this commit) |
-| E. Plush renderer | ☐ | |
+| D. Audio | ✅ | 2cdb608 |
+| E. Plush renderer | ✅ | (this commit) |
 | F. Clinic, Stitch, Wash | ☐ | |
 | G. Patch, Re-stuff, Brush, Dress | ☐ | |
 | H. Recovery room + charm | ☐ | |
@@ -28,4 +28,4 @@ Driven by `docs/prompts/CONTINUOUS_BUILD.md`. ☐ not started · ▶ in progress
 - Phase 1: https://github.com/ussery161-oss/Stitch-snuggle/compare/main...p1-core
 
 ## Next
-P1-E plush renderer (r03 art compositor).
+P1-F clinic flow, Stitch and Wash.
