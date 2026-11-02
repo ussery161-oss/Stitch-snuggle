@@ -138,17 +138,76 @@ Compare: https://github.com/ussery161-oss/Stitch-snuggle/compare/p1-core...p2-st
 
 **Open questions:** (1) Art for the 4 doll hair styles. (2) Music and SFX files (CC0) if wanted.
 
-## Phase 3 — `p3-ship` ▶
+## Phase 3 — `p3-ship` ⛔ (code done; waiting only on Mike's accounts, see BLOCKED.md)
 | Section | Status | Commit |
 |---|---|---|
 | A. Real purchase (expo-iap, StoreKit 2) | ✅ | 364c539 |
 | B. EAS profiles (no builds started) | ✅ | 77b664e |
-| C. Polish and compliance | ✅ | (this commit) |
-| Gate | ☐ | |
+| C. Polish and compliance | ✅ | b97a1f3 |
+| Gate | ✅ code / ⛔ accounts | (this commit, `P3-GATE`) |
+| Sandbox purchase, TestFlight, submission | ⛔ | needs the Apple org account, Paid Apps agreement and EAS login |
+
+### Phase 3 gate results
+- tsc clean, eslint clean, 219 tests green; `npx expo export --platform ios` succeeds; boot smoke as in Phase 2.
+- Prebuild: `npx expo prebuild --platform ios --no-install --clean` was run in a temp copy, but **Expo skips iOS prebuild on Windows** ("run from macOS or Linux"), and WSL isn't installed on this PC. Instead `npx expo config --type introspect` ran every config plugin (expo-audio, screen orientation, expo-iap, splash screen, dev client) and produced a valid iOS config: the placeholder bundle id, `ITSAppUsesNonExemptEncryption = false`, no tracking or usage keys except the dev launcher's local-network key, which its own build phase deletes from Release builds. The real prebuild runs on the EAS builders.
+- Kids Category / COPPA: all pass (`docs-proposals/KIDS_CHECKLIST.md`, Phase 3 table).
+- **Visual check: pass** (`artifacts/visual/phase3/`, same set as Phase 2; nothing visual changed in Phase 3 apart from the app icon `assets/app/icon.png`).
+
+### Phase 3 PR
+Compare: https://github.com/ussery161-oss/Stitch-snuggle/compare/p2-studio...p3-ship (or against `main` once Phases 1–2 are merged).
+
+**Summary.** Real StoreKit 2 purchase (`unlock_all`) through expo-iap with launch re-check, offline cache, finished transactions and Restore; Expo Go and missing-module fallback to the mock; `eas.json` (development / preview / production); dev client; app icon and launch screen placeholders; screenshot helper; submission notes, Kids checklist and BLOCKED.md.
+
+**Changes to how Mike runs it:** Expo Go now needs `npx expo start --tunnel --clear --go` (because of the dev client). README updated.
+
+**New dependencies (all Expo modules):** expo-iap (+ config plugin), expo-constants, expo-dev-client, expo-splash-screen, expo-file-system (P2).
+
+**Open questions:** (1) Final bundle id. (2) Final app icon art (`assets/art/ui/app_icon.png`). (3) When to spend the ~3 EAS builds.
 
 ## Known issues
 - `gh` CLI is not installed on this PC, so PRs can't be opened automatically; the compare links are listed per phase. To open them: click the link and press "Create pull request", or install GitHub CLI (`winget install GitHub.cli`, then `gh auth login`).
-- npm held back `@shopify/react-native-skia`'s postinstall (it downloads the native Skia libraries). Not needed for Expo Go, Jest or `expo export`; needed before a native build (Phase 3): `npm install-scripts approve @shopify/react-native-skia`.
+- iOS prebuild can't run on Windows (Expo skips it); the EAS builders run it. Config validated with `expo config --type introspect`.
+- fps on the iPad not yet measured (Parent → Plush test screen shows it).
+- No Bella clips are in the repo yet: every line uses the iPhone voice until they're recorded (`assets/audio/VOICE_IDS.md`).
+- No music or sound effects yet (the volume settings are saved for when they land).
+
+---
+
+## Finish
+**Done:** Phase 1 ✅ (`p1-core`), Phase 2 ✅ (`p2-studio`), Phase 3 ⛔ only on hard blockers (`p3-ship`: all code, tests, `eas.json`, mock fallback, checklist and submission notes are done). Every branch is pushed; nothing was force-pushed and nothing was pushed to `main`.
+
+**PR links (open each and press "Create pull request"):**
+1. Phase 1: https://github.com/ussery161-oss/Stitch-snuggle/compare/main...p1-core
+2. Phase 2: https://github.com/ussery161-oss/Stitch-snuggle/compare/p1-core...p2-studio (retarget to `main` after Phase 1 merges)
+3. Phase 3: https://github.com/ussery161-oss/Stitch-snuggle/compare/p2-studio...p3-ship (retarget to `main` after Phase 2 merges)
+
+**Combined iPad / iPhone checklist** (Expo Go: `npx expo start --tunnel --clear --go`)
+- [ ] The app opens without crashing; the Title shows the big buttons and a breathing bear.
+- [ ] A quick tap on Home says "Hold to go home"; a 2 s hold goes Home.
+- [ ] The lock icon opens the gate; tapping the numbers smallest to largest, then holding the lock, opens Parent.
+- [ ] Parent → Plush test screen: Bear and Bunny in 3 sizes, tap to change; note the fps (top right).
+- [ ] Parent → Ages 6–7 is remembered after closing and reopening.
+- [ ] Play: the plushie arrives in a basket, the story is spoken, glowing spots say "ouch… thank you".
+- [ ] Stitch: tracing the dots sews; lifting off never buzzes.
+- [ ] Wash: rubbing cleans the mud, the shower pops the suds, the towel dries.
+- [ ] Patch, stuffing, brushing and dressing all work; the done heart appears if you wait 20 s.
+- [ ] Go home: a hug, "Every toy is loved!", then "Thank you!".
+- [ ] Recovery room: the small gold heart-and-cross is easy to miss; a sticker flies into the book.
+- [ ] Studio: pick Bunny, make it tall, paint it pink with stars, add star eyes and a crown, pick a name, Save (unlock first, or those wiggle with padlocks).
+- [ ] The dice and Undo work; a doll gets a skin tone and hair colour.
+- [ ] Toy shelf → Play doctor: your own plushie arrives hurt and you can fix it.
+- [ ] Stickers: move one, make it bigger; it's still there after closing and reopening.
+- [ ] Locked items show a padlock with no price and no nag. Parent → Unlock (mock) → everything opens.
+- [ ] Credits open with Ephesians 4:32, then the blessing line. The privacy page says no data is collected.
+- [ ] Showcase Room: 3 plushies on shelves, one to the podium; still there after reopening.
+- [ ] Parent → Captions On shows the spoken words.
+- [ ] Reduce Motion (iOS Settings → Accessibility → Motion) calms the animations.
+- [ ] Try an iPhone too, for the layout.
+- After BLOCKED.md: [ ] dev build + sandbox tester: Parent → Unlock shows the price → buy → everything unlocks; [ ] delete and reinstall → Restore Purchases unlocks again; [ ] airplane mode: still plays and stays unlocked; [ ] TestFlight build smooth on iPad and iPhone.
+
+**For Researcher 2 to record:** all 96 lines in `assets/audio/VOICE_IDS.md` (ids and exact texts; Phase 1's 32 are listed above, Phase 2 adds the 40 names, Studio lines and the other stories). Render each with Kokoro-82M af_bella to `assets/audio/lines/<id>.m4a`, then run `npm run gen:voice` and `npm run gen:voice-ids`.
+
+**BLOCKED.md summary:** (1) DesMacApps D-U-N-S and Apple Developer organization account, then the real bundle id; (2) Paid Apps agreement, tax and banking in App Store Connect; (3) the app record, the `unlock_all` product at $5.99 and a sandbox tester; (4) `npx eas login`, `npx eas init`, then the development build for sandbox testing and later production + submit. Then say "Read and do docs/prompts/CONTINUOUS_BUILD.md." to resume.
 
 ## Next
-P3 phase gate.
+Waiting on BLOCKED.md. Then: sandbox purchase test on the dev build, TestFlight, submission.
