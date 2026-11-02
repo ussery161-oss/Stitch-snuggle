@@ -138,12 +138,17 @@ Compare: https://github.com/ussery161-oss/Stitch-snuggle/compare/p1-core...p2-st
 
 **Open questions:** (1) Art for the 4 doll hair styles. (2) Music and SFX files (CC0) if wanted.
 
-## Phase 3 — `p3-ship`
-☐ not started
+## Phase 3 — `p3-ship` ▶
+| Section | Status | Commit |
+|---|---|---|
+| A. Real purchase (expo-iap, StoreKit 2) | ✅ | (this commit) |
+| B. EAS profiles (no builds started) | ☐ | |
+| C. Polish and compliance | ☐ | |
+| Gate | ☐ | |
 
 ## Known issues
 - `gh` CLI is not installed on this PC, so PRs can't be opened automatically; the compare links are listed per phase. To open them: click the link and press "Create pull request", or install GitHub CLI (`winget install GitHub.cli`, then `gh auth login`).
 - npm held back `@shopify/react-native-skia`'s postinstall (it downloads the native Skia libraries). Not needed for Expo Go, Jest or `expo export`; needed before a native build (Phase 3): `npm install-scripts approve @shopify/react-native-skia`.
 
 ## Next
-Phase 3: branch `p3-ship` from `p2-studio`, section A (real purchase with the Expo Go mock fallback).
+P3-B eas.json.

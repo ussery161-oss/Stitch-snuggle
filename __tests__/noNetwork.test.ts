@@ -38,4 +38,12 @@ describe('no network in src/', () => {
       .flatMap((f) => networkHits(fs.readFileSync(f, 'utf8')).map((h) => `${path.relative(ROOT, f)}: ${h}`));
     expect(hits).toEqual([]);
   });
+
+  it("StoreKit (expo-iap) is the only network-capable module, and only the purchase service loads it", () => {
+    // Allow-list: Apple's StoreKit traffic happens inside the native module, never in app code.
+    const users = walk(SRC)
+      .filter((f) => /\.(tsx?|js)$/.test(f) && /['"]expo-iap['"]/.test(fs.readFileSync(f, 'utf8')))
+      .map((f) => path.relative(SRC, f).split(path.sep).join('/'));
+    expect(users).toEqual(['purchase/purchaseService.ts']);
+  });
 });

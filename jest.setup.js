@@ -70,3 +70,5 @@ jest.mock('expo-file-system', () => {
   }
   return { Directory, File, Paths: { document: new Directory('file:///docs'), cache: new Directory('file:///cache') } };
 });
+// StoreKit isn't available in Jest (as in Expo Go): the app falls back to the mock purchase service.
+jest.mock('expo-iap', () => ({}));

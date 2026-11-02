@@ -23,7 +23,8 @@
           "recordAudioAndroid": false
         }
       ],
-      "expo-screen-orientation"
+      "expo-screen-orientation",
+      "expo-iap"
     ]
   }
 }

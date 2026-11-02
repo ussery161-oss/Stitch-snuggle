@@ -16,6 +16,7 @@ import ParentScreen, { AgeSetting } from './src/screens/parent/ParentScreen';
 import PrivacyScreen from './src/screens/parent/PrivacyScreen';
 import { saveStore, useSave } from './src/storage/useSave';
 import CaptionBar from './src/ui/CaptionBar';
+import { checkEntitlementAtLaunch } from './src/purchase/purchaseService';
 import type { AgeBand } from './src/clinic/visit';
 import TitleHero from './src/screens/TitleHero';
 import StudioScreen from './src/studio/StudioScreen';
@@ -37,7 +38,8 @@ export default function App() {
   const preset = playable[visits % playable.length];
   const patient = creationPatient?.spec ?? preset.spec;
   useEffect(() => {
-    if (!saveStore.isLoaded) void saveStore.load();
+    // Load the save, then (StoreKit builds only) re-check the purchase; offline keeps the cache.
+    if (!saveStore.isLoaded) void saveStore.load().then(() => checkEntitlementAtLaunch());
   }, []);
   const settings = save.settings;
   const changeAge = (age: AgeBand) => saveStore.update((s) => ({ ...s, settings: { ...s.settings, age } }));
