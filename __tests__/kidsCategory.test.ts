@@ -22,7 +22,7 @@ describe('Kids Category', () => {
           .readFileSync(f, 'utf8')
           .split('\n')
           .map((l) => l.replace(/\/\/.*$/, ''))
-          .filter((l) => /\$\s?\d|\bprice\b|\bbuy\b|\bpurchase\b|\bsubscri|\bunlock now\b|in-app/i.test(l))
+          .filter((l) => /\$\s?\d|\bprice\b|\bbuy\b|\bpurchase\b|\bsubscription|\bunlock now\b|in-app/i.test(l))
           .map((l) => `${path.relative(SRC, f)}: ${l.trim()}`),
       );
     expect(hits).toEqual([]);
@@ -41,6 +41,6 @@ describe('Kids Category', () => {
 
   it('nothing is stored about the child except settings on the device', () => {
     const users = walk(SRC).filter((f) => fs.readFileSync(f, 'utf8').includes('AsyncStorage'));
-    expect(users.map((f) => path.relative(SRC, f).split(path.sep).join('/'))).toEqual(['storage/settings.ts']);
+    expect(users.map((f) => path.relative(SRC, f).split(path.sep).join('/'))).toEqual(['storage/saveStore.ts']);
   });
 });

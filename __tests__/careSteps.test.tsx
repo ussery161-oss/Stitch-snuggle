@@ -18,7 +18,7 @@ import { createVisit, type Visit } from '../src/clinic/visit';
 import { bodySet } from '../src/plush/registry';
 import { ACCESSORY_INFO, PRESETS } from '../src/plush/spec';
 import type { AccessoryId } from '../src/plush/types';
-import { parseSettings, SETTINGS_KEY } from '../src/storage/settings';
+import { SAVE_KEY } from '../src/storage/saveStore';
 import { passGate } from './appShell.test';
 
 const W = 750;
@@ -117,19 +117,13 @@ describe('re-stuff helpers', () => {
 });
 
 describe('age setting', () => {
-  it('parses stored settings and falls back to ages 3–5', () => {
-    expect(parseSettings(null).age).toBe('3-5');
-    expect(parseSettings('{"age":"6-7"}').age).toBe('6-7');
-    expect(parseSettings('garbage').age).toBe('3-5');
-  });
-
   it('is changed behind the gate and saved on the device', async () => {
     await render(<App />);
     await fireEvent.press(screen.getByTestId('title-parent'));
     await passGate();
     await fireEvent.press(screen.getByTestId('age-6-7'));
     await tick(10);
-    expect(JSON.parse((await AsyncStorage.getItem(SETTINGS_KEY))!)).toEqual({ age: '6-7' });
+    expect(JSON.parse((await AsyncStorage.getItem(SAVE_KEY))!).settings.age).toBe('6-7');
   });
 });
 

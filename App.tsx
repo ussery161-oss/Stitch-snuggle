@@ -11,7 +11,7 @@ import { initialRoute, routeReducer } from './src/logic/router';
 import { PRESETS } from './src/plush/spec';
 import DevScreen from './src/screens/DevScreen';
 import ParentScreen, { AgeSetting } from './src/screens/ParentScreen';
-import { DEFAULT_SETTINGS, loadSettings, saveSettings, type Settings } from './src/storage/settings';
+import { saveStore, useSave } from './src/storage/useSave';
 import type { AgeBand } from './src/clinic/visit';
 import PlaceholderScreen from './src/screens/PlaceholderScreen';
 import TitleHero from './src/screens/TitleHero';
@@ -25,21 +25,12 @@ export default function App() {
   // P1 plays the two demo presets, taking turns.
   const [visits, setVisits] = useState(0);
   const patient = visits % 2 === 0 ? PRESETS.bear : PRESETS.bunny;
-  const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
+  const save = useSave();
   useEffect(() => {
-    let live = true;
-    loadSettings().then((s) => {
-      if (live) setSettings(s);
-    });
-    return () => {
-      live = false;
-    };
+    if (!saveStore.isLoaded) void saveStore.load();
   }, []);
-  const changeAge = (age: AgeBand) => {
-    const next = { ...settings, age };
-    setSettings(next);
-    saveSettings(next);
-  };
+  const settings = save.settings;
+  const changeAge = (age: AgeBand) => saveStore.update((s) => ({ ...s, settings: { ...s.settings, age } }));
 
   useEffect(() => {
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE).catch(() => {});

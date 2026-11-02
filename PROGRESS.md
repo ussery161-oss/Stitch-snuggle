@@ -90,8 +90,19 @@ https://github.com/ussery161-oss/Stitch-snuggle/compare/main...p1-core
 
 **Open questions:** (1) Overlay vs Multiply for the shade layer (above). (2) The fps reading from the iPad.
 
-## Phase 2 — `p2-studio`
-☐ not started
+## Phase 2 — `p2-studio` ▶
+| Section | Status | Commit |
+|---|---|---|
+| A. Save schema v1/v2 | ✅ | (this commit) |
+| B. Design Studio | ☐ | |
+| C. Sticker book | ☐ | |
+| D. Content pass + preset rules | ☐ | |
+| E. Entitlements, mock purchase, parent area | ☐ | |
+| F. Credits | ☐ | |
+| G. Showcase Room | ☐ | |
+| Gate | ☐ | |
+
+PR: https://github.com/ussery161-oss/Stitch-snuggle/compare/main...p2-studio (after Phase 1's PR merges, or compare against `p1-core`).
 
 ## Phase 3 — `p3-ship`
 ☐ not started
@@ -101,4 +112,4 @@ https://github.com/ussery161-oss/Stitch-snuggle/compare/main...p1-core
 - npm held back `@shopify/react-native-skia`'s postinstall (it downloads the native Skia libraries). Not needed for Expo Go, Jest or `expo export`; needed before a native build (Phase 3): `npm install-scripts approve @shopify/react-native-skia`.
 
 ## Next
-Phase 2: branch `p2-studio` from `p1-core`, section A (save schema v1/v2).
+P2-B Design Studio.
