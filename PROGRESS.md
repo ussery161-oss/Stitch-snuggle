@@ -93,8 +93,8 @@ https://github.com/ussery161-oss/Stitch-snuggle/compare/main...p1-core
 ## Phase 2 — `p2-studio` ▶
 | Section | Status | Commit |
 |---|---|---|
-| A. Save schema v1/v2 | ✅ | (this commit) |
-| B. Design Studio | ☐ | |
+| A. Save schema v1/v2 | ✅ | 49a0c3e |
+| B. Design Studio | ✅ | (this commit) |
 | C. Sticker book | ☐ | |
 | D. Content pass + preset rules | ☐ | |
 | E. Entitlements, mock purchase, parent area | ☐ | |
@@ -112,4 +112,4 @@ PR: https://github.com/ussery161-oss/Stitch-snuggle/compare/main...p2-studio (af
 - npm held back `@shopify/react-native-skia`'s postinstall (it downloads the native Skia libraries). Not needed for Expo Go, Jest or `expo export`; needed before a native build (Phase 3): `npm install-scripts approve @shopify/react-native-skia`.
 
 ## Next
-P2-B Design Studio.
+P2-C sticker book.

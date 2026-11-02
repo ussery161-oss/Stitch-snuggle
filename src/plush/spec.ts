@@ -90,7 +90,49 @@ export function wearAccessory(list: readonly AccessoryId[], id: AccessoryId): Ac
   return [...list.filter((a) => ACCESSORY_INFO[a].slot !== slot), id];
 }
 
-export const NAME_IDS: readonly string[] = ['teddy', 'bunbun', 'honey', 'pip', 'mochi', 'button', 'clover', 'sunny'];
+/** The 40 voiced names (lines name-<id>). */
+export const NAME_IDS: readonly string[] = [
+  'teddy',
+  'bunbun',
+  'honey',
+  'pip',
+  'mochi',
+  'button',
+  'clover',
+  'sunny',
+  'poppy',
+  'biscuit',
+  'maple',
+  'pebble',
+  'daisy',
+  'cocoa',
+  'peanut',
+  'buttercup',
+  'marshmallow',
+  'ziggy',
+  'lulu',
+  'coco',
+  'bean',
+  'sprout',
+  'juniper',
+  'waffles',
+  'pudding',
+  'noodle',
+  'jellybean',
+  'cupcake',
+  'muffin',
+  'sparky',
+  'rosie',
+  'milo',
+  'luna',
+  'ruby',
+  'finn',
+  'hazel',
+  'pumpkin',
+  'snowflake',
+  'dottie',
+  'bubbles',
+];
 
 function fill(color: string, pattern: PatternId = 'solid'): Fill {
   return { color, pattern };

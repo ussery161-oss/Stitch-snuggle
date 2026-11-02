@@ -21,7 +21,8 @@ describe('Kids Category', () => {
         fs
           .readFileSync(f, 'utf8')
           .split('\n')
-          .map((l) => l.replace(/\/\/.*$/, ''))
+          // Comments may explain the rule; only code and UI text count.
+          .map((l) => l.replace(/\/\/.*$/, '').replace(/\/\*.*?\*\//g, '').replace(/^\s*(\/\*\*?|\*).*$/, ''))
           .filter((l) => /\$\s?\d|\bprice\b|\bbuy\b|\bpurchase\b|\bsubscription|\bunlock now\b|in-app/i.test(l))
           .map((l) => `${path.relative(SRC, f)}: ${l.trim()}`),
       );

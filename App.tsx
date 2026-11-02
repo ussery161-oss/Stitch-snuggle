@@ -15,8 +15,10 @@ import { saveStore, useSave } from './src/storage/useSave';
 import type { AgeBand } from './src/clinic/visit';
 import PlaceholderScreen from './src/screens/PlaceholderScreen';
 import TitleHero from './src/screens/TitleHero';
+import StudioScreen from './src/studio/StudioScreen';
+import type { Creation } from './src/storage/schema';
 import TitleScreen from './src/screens/TitleScreen';
-import { HeartIcon, StudioIcon } from './src/ui/Icons';
+import { HeartIcon } from './src/ui/Icons';
 import { colors } from './src/ui/theme';
 
 export default function App() {
@@ -24,7 +26,9 @@ export default function App() {
   const { width, height } = useWindowDimensions();
   // P1 plays the two demo presets, taking turns.
   const [visits, setVisits] = useState(0);
-  const patient = visits % 2 === 0 ? PRESETS.bear : PRESETS.bunny;
+  // Play doctor from the toy shelf sends a creation; otherwise the presets take turns.
+  const [creationPatient, setCreationPatient] = useState<Creation | null>(null);
+  const patient = creationPatient?.spec ?? (visits % 2 === 0 ? PRESETS.bear : PRESETS.bunny);
   const save = useSave();
   useEffect(() => {
     if (!saveStore.isLoaded) void saveStore.load();
@@ -43,6 +47,7 @@ export default function App() {
       screen = (
         <TitleScreen
           onPlay={() => {
+            setCreationPatient(null);
             setVisits((v) => v + 1);
             dispatch({ type: 'go', screen: 'clinic' });
           }}
@@ -58,9 +63,14 @@ export default function App() {
       break;
     case 'studio':
       screen = (
-        <PlaceholderScreen testID="studio-screen" onHome={home} color={colors.lavender}>
-          <StudioIcon size={200} />
-        </PlaceholderScreen>
+        <StudioScreen
+          onHome={home}
+          onParent={() => dispatch({ type: 'gate', target: 'parent' })}
+          onPlayDoctor={(c) => {
+            setCreationPatient(c);
+            dispatch({ type: 'go', screen: 'clinic' });
+          }}
+        />
       );
       break;
     case 'stickers':
