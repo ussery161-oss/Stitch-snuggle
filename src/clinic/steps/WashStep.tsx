@@ -34,7 +34,7 @@ export const COVERAGE_HZ = 10;
 
 type WashPhase = 'soap' | 'rinse' | 'dry' | 'done';
 
-export default function WashStep({ visit, layout, onDone }: StepProps) {
+export default function WashStep({ visit, layout, onDone, spec, repairs }: StepProps) {
   const dirt = useMemo(() => damagesFor(visit, 'wash'), [visit]);
   const rect = layout.plush;
   const [phase, setPhase] = useState<WashPhase>('soap');
@@ -248,7 +248,8 @@ export default function WashStep({ visit, layout, onDone }: StepProps) {
         <ClinicStage
           scene="scene_clinic"
           layout={layout}
-          spec={visit.plush}
+          spec={spec}
+          repairs={repairs}
           plush={{ mouth: phase === 'soap' ? 'neutral' : 'smile', overlay }}
           front={
             <Group>

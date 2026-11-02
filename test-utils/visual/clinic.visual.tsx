@@ -68,3 +68,44 @@ describe('visual: clinic', () => {
     expect(file).toContain('clinic_scene.png');
   });
 });
+
+describe('visual: care step overlays', () => {
+  beforeAll(() => useDiskArt());
+
+  it('renders a patch, tangles and a drooping arm', async () => {
+    const { PatchDrawing } = require('../../src/clinic/ui/RepairsOverlay');
+    const { droopTransform } = require('../../src/clinic/helpers');
+    const spec = PRESETS.bunny;
+    const set = bodySet('bunny', 'round');
+    const assets = await loadPlushAssets(spec, set, 0.6, 'neutral');
+    const swatch = await loadImage('fabrics/patch_swatch_mint_check');
+    const tile = await loadImage('damage/tangle_tile');
+    const arm = set.parts.find((p) => p.id === 'armL')!;
+    const belly = set.damageSpots.find((d) => d.part === 'belly')!;
+    const head = set.damageSpots.find((d) => d.id === 'rip_head')!;
+    const tangles = [{ id: 't', kind: 'tangle' as const, part: 'head', xy: head.xy, radius: 110 }];
+    const file = await renderPng(
+      <Group>
+        <Fill color="#F0E4D4" />
+        <Group transform={[{ scale: 0.6 }]}>
+          <PlushDrawing
+            set={set}
+            spec={spec}
+            assets={assets}
+            partTransforms={{ armL: droopTransform({ x: arm.anchor[0], y: arm.anchor[1] }, 0, 1) }}
+            overlay={(a, st) => (
+              <Group>
+                <PatchDrawing at={belly.xy} radius={62} image={swatch} />
+                <MudOverlay dirt={tangles} assets={a} set={st} erase={Skia.Path.Make()} opacity={1} splats={[]} tangle={tile} />
+              </Group>
+            )}
+          />
+        </Group>
+      </Group>,
+      615,
+      615,
+      'care_overlays.png',
+    );
+    expect(file).toContain('care_overlays.png');
+  });
+});

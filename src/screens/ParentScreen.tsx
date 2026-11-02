@@ -3,6 +3,7 @@
 import type { ReactNode } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import type { AgeBand } from '../clinic/visit';
 import { colors, MIN_TOUCH } from '../ui/theme';
 
 interface Props {
@@ -17,6 +18,20 @@ export function ParentButton({ label, onPress, testID, selected }: { label: stri
     <Pressable testID={testID} accessibilityRole="button" accessibilityLabel={label} onPress={onPress} style={[styles.btn, selected && styles.btnOn]}>
       <Text style={styles.btnText}>{label}</Text>
     </Pressable>
+  );
+}
+
+/** Age band: caps the care steps per visit (3 for ages 3–5, 4 for ages 6–7). */
+export function AgeSetting({ age, onChange }: { age: AgeBand; onChange: (a: AgeBand) => void }) {
+  return (
+    <View>
+      <Text style={styles.section}>Child’s age</Text>
+      <Text style={styles.note}>Ages 3–5: up to 3 care steps per visit. Ages 6–7: up to 4.</Text>
+      <View style={styles.row}>
+        <ParentButton testID="age-3-5" label="Ages 3–5" selected={age === '3-5'} onPress={() => onChange('3-5')} />
+        <ParentButton testID="age-6-7" label="Ages 6–7" selected={age === '6-7'} onPress={() => onChange('6-7')} />
+      </View>
+    </View>
   );
 }
 
@@ -45,4 +60,6 @@ const styles = StyleSheet.create({
   btn: { minHeight: MIN_TOUCH, minWidth: 140, paddingHorizontal: 22, borderRadius: 16, borderWidth: 3, borderColor: colors.line, backgroundColor: colors.white, alignItems: 'center', justifyContent: 'center', alignSelf: 'flex-start' },
   btnOn: { backgroundColor: colors.mint },
   btnText: { fontSize: 20, color: colors.line, fontWeight: '600' },
+  note: { fontSize: 16, color: colors.line, opacity: 0.8, marginBottom: 8 },
+  row: { flexDirection: 'row', gap: 12 },
 });

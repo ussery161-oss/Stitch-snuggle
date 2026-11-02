@@ -15,6 +15,8 @@ import DoneHeart from './ui/DoneHeart';
 import HandHint from './ui/HandHint';
 import Sprite from './ui/Sprite';
 import { useStall } from './ui/useStall';
+import type { PlushSpec } from '../plush/types';
+import type { Repair } from './snap';
 import { triageSpots, type Visit } from './visit';
 
 /** Where things stand in scene_clinic (scenes.json). */
@@ -193,7 +195,7 @@ export function Triage({ visit, layout, found, onSpot, onDone }: { visit: Visit;
 
 // ---------- Go home ----------
 
-export function GoHome({ visit, layout, onDone }: { visit: Visit; layout: SceneLayout; onDone: () => void }) {
+export function GoHome({ visit, layout, onDone, spec, repairs }: { visit: Visit; layout: SceneLayout; onDone: () => void; spec: PlushSpec; repairs: readonly Repair[] }) {
   const { width } = useLayout();
   const reduce = useReducedMotion();
   const walk = useSharedValue(reduce ? 1 : 0);
@@ -226,7 +228,8 @@ export function GoHome({ visit, layout, onDone }: { visit: Visit; layout: SceneL
       <ClinicStage
         scene="scene_clinic"
         layout={layout}
-        spec={visit.plush}
+        spec={spec}
+        repairs={repairs}
         plush={{ mouth: 'big_happy' }}
         plushGroup={plushT}
         front={

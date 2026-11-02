@@ -1,33 +1,42 @@
 // The clinic: arrival → triage → the care steps this visit needs (fixed order) → go home →
 // recovery room → back to the title. A row of step icons shows progress; Home is always there.
 // There is nothing to fail: every phase finishes by itself, by progress, or with the done heart.
-import { useCallback, useEffect, useMemo, useReducer, type ReactElement } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useState, type ReactElement } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { hush } from '../audio/speak';
 import { randomSeed } from '../logic/rng';
-import type { DamageKind, PlushSpec } from '../plush/types';
+import type { AccessoryId, DamageKind, PlushSpec } from '../plush/types';
 import HomeButton from '../ui/HomeButton';
 import { useLayout } from '../ui/theme';
 import { flowReducer, initialFlow, type FlowEvent, type FlowState } from './flow';
 import { CLINIC_PLUSH_RECT, sceneLayout } from './helpers';
 import { Arrival, GoHome, Triage } from './phases';
+import { addRepair, type Repair } from './snap';
+import BrushStep from './steps/BrushStep';
+import DressStep from './steps/DressStep';
+import PatchStep from './steps/PatchStep';
+import RestuffStep from './steps/RestuffStep';
 import StitchStep from './steps/StitchStep';
 import type { StepProps } from './steps/types';
 import WashStep from './steps/WashStep';
 import StepIcons from './ui/StepIcons';
-import { createVisit, type AgeBand, type StepKind, type Visit } from './visit';
+import { ALL_DAMAGE, createVisit, type AgeBand, type StepKind, type Visit } from './visit';
 
 export { CLINIC_PLUSH_RECT };
 
 
-/** The care steps built so far, and the damage kinds visits may use. */
+/** Every care step, and the damage kinds visits use (all of them). */
 export const STEP_COMPONENTS: Partial<Record<StepKind, (p: StepProps) => ReactElement | null>> = {
   stitch: StitchStep,
+  patch: PatchStep,
+  stuff: RestuffStep,
   wash: WashStep,
+  brush: BrushStep,
+  dress: DressStep,
 };
-export const CLINIC_KINDS: readonly DamageKind[] = ['rip', 'dirt'];
+export const CLINIC_KINDS: readonly DamageKind[] = ALL_DAMAGE;
 
 interface Props {
   spec: PlushSpec;
@@ -44,6 +53,11 @@ export default function ClinicScreen({ spec, age = '3-5', seed, onExit, renderRe
   const { width, height } = useLayout();
   const insets = useSafeAreaInsets();
   const layout = useMemo(() => sceneLayout(width, height, CLINIC_PLUSH_RECT), [width, height]);
+  // What changes on the plushie during the visit: repairs stay on; Dress sets what it wears.
+  const [repairs, setRepairs] = useState<Repair[]>([]);
+  const [outfit, setOutfit] = useState<AccessoryId[] | null>(null);
+  const current = useMemo<PlushSpec>(() => (outfit ? { ...visit.plush, accessories: outfit } : visit.plush), [visit.plush, outfit]);
+  const onRepair = useCallback((r: Repair) => setRepairs((list) => addRepair(list, r)), []);
 
   useEffect(() => () => hush(), []);
   const stepDone = useCallback(() => dispatch({ type: 'stepDone' }), []);
@@ -74,11 +88,11 @@ export default function ClinicScreen({ spec, age = '3-5', seed, onExit, renderRe
     case 'care': {
       const kind = visit.steps[flow.step];
       const Step = STEP_COMPONENTS[kind];
-      body = Step ? <Step key={`${kind}-${flow.step}`} visit={visit} layout={layout} onDone={stepDone} /> : null;
+      body = Step ? <Step key={`${kind}-${flow.step}`} visit={visit} layout={layout} onDone={stepDone} spec={current} repairs={repairs} onRepair={onRepair} onOutfit={setOutfit} /> : null;
       break;
     }
     case 'gohome':
-      body = <GoHome visit={visit} layout={layout} onDone={homeDone} />;
+      body = <GoHome visit={visit} layout={layout} onDone={homeDone} spec={current} repairs={repairs} />;
       break;
     case 'recovery':
       body = renderRecovery ? renderRecovery(visit, recoveryDone) : null;

@@ -9,8 +9,8 @@ Driven by `docs/prompts/CONTINUOUS_BUILD.md`. ☐ not started · ▶ in progress
 | C. Shell, nav, home, gate | ✅ | ca40785 |
 | D. Audio | ✅ | 2cdb608 |
 | E. Plush renderer | ✅ | c897e47 |
-| F. Clinic, Stitch, Wash | ✅ | (this commit) |
-| G. Patch, Re-stuff, Brush, Dress | ☐ | |
+| F. Clinic, Stitch, Wash | ✅ | 2b8f7c7 |
+| G. Patch, Re-stuff, Brush, Dress | ✅ | (this commit) |
 | H. Recovery room + charm | ☐ | |
 | Gate | ☐ | |
 
@@ -28,4 +28,4 @@ Driven by `docs/prompts/CONTINUOUS_BUILD.md`. ☐ not started · ▶ in progress
 - Phase 1: https://github.com/ussery161-oss/Stitch-snuggle/compare/main...p1-core
 
 ## Next
-P1-G Patch, Re-stuff, Brush, Dress and all damage kinds.
+P1-H recovery room and the heart-and-cross charm.

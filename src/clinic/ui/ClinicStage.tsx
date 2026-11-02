@@ -8,6 +8,8 @@ import { StyleSheet } from 'react-native';
 import Plush, { type PlushProps } from '../../plush/Plush';
 import type { PlushSpec } from '../../plush/types';
 import { useArtImage } from '../../ui/useArtImage';
+import type { Repair } from '../snap';
+import RepairsOverlay from './RepairsOverlay';
 import { SCENE_H, SCENE_W, type SceneLayout } from '../helpers';
 
 interface Props {
@@ -19,13 +21,25 @@ interface Props {
   hidePlush?: boolean;
   /** Moves the plushie (arrival hop, go-home hug), applied around its feet. */
   plushGroup?: SharedValue<Transforms3d>;
+  /** Repairs from earlier steps (they stay on the plushie). */
+  repairs?: readonly Repair[];
   behind?: ReactNode;
   front?: ReactNode;
   background?: string;
 }
 
-export default function ClinicStage({ scene, layout, spec, plush, hidePlush, plushGroup, behind, front, background = '#E8F4EE' }: Props) {
+export default function ClinicStage({ scene, layout, spec, plush, hidePlush, plushGroup, repairs, behind, front, background = '#E8F4EE' }: Props) {
   const bg = useArtImage(`ui/scenes/${scene}`);
+  const own = plush?.overlay;
+  const overlay: PlushProps['overlay'] =
+    repairs && repairs.length > 0
+      ? (a, s) => (
+          <Group>
+            <RepairsOverlay repairs={repairs} />
+            {typeof own === 'function' ? own(a, s) : own}
+          </Group>
+        )
+      : own;
   return (
     <Canvas style={StyleSheet.absoluteFill}>
       <Fill color={background} />
@@ -33,7 +47,7 @@ export default function ClinicStage({ scene, layout, spec, plush, hidePlush, plu
       {behind}
       {hidePlush ? null : (
         <Group transform={plushGroup}>
-          <Plush spec={spec} x={layout.plush.x} y={layout.plush.y} size={layout.plush.size} {...plush} />
+          <Plush spec={spec} x={layout.plush.x} y={layout.plush.y} size={layout.plush.size} {...plush} overlay={overlay} />
         </Group>
       )}
       {front}

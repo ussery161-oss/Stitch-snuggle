@@ -69,7 +69,7 @@ function XStitch({ x, y, at, progress }: { x: number; y: number; at: number; pro
   return <Path path={p} color={THREAD_COLOR} style="stroke" strokeWidth={7} strokeCap="round" opacity={opacity} />;
 }
 
-function RipTrace({ rip, layout, onRipDone, onProgress, children }: { rip: Damage; layout: StepProps['layout']; onRipDone: () => void; onProgress: () => void; children: (overlay: ReactNode, needle: ReactNode, hintAt: () => { x: number; y: number }, hintTo: () => { x: number; y: number }) => ReactNode }) {
+export function RipTrace({ rip, layout, onRipDone, onProgress, children }: { rip: Damage; layout: StepProps['layout']; onRipDone: () => void; onProgress: () => void; children: (overlay: ReactNode, needle: ReactNode, hintAt: () => { x: number; y: number }, hintTo: () => { x: number; y: number }) => ReactNode }) {
   const pts = useMemo(() => (rip.path ?? []).flatMap((p) => [p[0], p[1]]), [rip.path]);
   const cum = useMemo(() => cumulativeLengths(pts), [pts]);
   const total = cum[cum.length - 1];
@@ -163,7 +163,7 @@ function RipTrace({ rip, layout, onRipDone, onProgress, children }: { rip: Damag
   return <GestureDetector gesture={pan}>{children(overlay, needle, hintAt, hintTo)}</GestureDetector>;
 }
 
-export default function StitchStep({ visit, layout, onDone }: StepProps) {
+export default function StitchStep({ visit, layout, onDone, spec, repairs, onRepair }: StepProps) {
   const rips = useMemo(() => damagesFor(visit, 'stitch'), [visit]);
   const [index, setIndex] = useState(0);
   const { hint, heart, progress } = useStall();
@@ -182,12 +182,14 @@ export default function StitchStep({ visit, layout, onDone }: StepProps) {
   }, [onDone]);
   const onRipDone = useCallback(() => {
     progress();
+    const sewn = rips[Math.min(index, rips.length - 1)];
+    if (sewn?.path) onRepair({ kind: 'stitch', path: sewn.path });
     say(PRAISE_IDS[index % PRAISE_IDS.length]);
     timer.current = setTimeout(() => {
       if (index + 1 < rips.length) setIndex(index + 1);
       else finish();
     }, 900);
-  }, [finish, index, progress, rips.length]);
+  }, [finish, index, onRepair, progress, rips]);
   const rip = rips[Math.min(index, rips.length - 1)];
   const tray = scenePoint(layout, [1860, 800]);
   if (!rip) return null;
@@ -198,7 +200,8 @@ export default function StitchStep({ visit, layout, onDone }: StepProps) {
           <ClinicStage
             scene="scene_clinic"
             layout={layout}
-            spec={visit.plush}
+            spec={spec}
+            repairs={repairs}
             plush={{ mouth: 'neutral', overlay }}
             front={
               <Group>

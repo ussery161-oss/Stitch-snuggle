@@ -140,3 +140,29 @@ export function hugTransform(hug: number, foot: { x: number; y: number }): Trans
   const s = 1 + 0.06 * hug;
   return [{ translateX: foot.x }, { translateY: foot.y }, { scaleX: s }, { scaleY: 2 - s }, { translateX: -foot.x }, { translateY: -foot.y }];
 }
+
+// ---------- Re-stuff ----------
+
+/** A flat part is squashed to this height and droops by this angle (radians) when empty. */
+export const FLAT_SCALE_Y = 0.8;
+export const FLAT_DROOP = 0.22;
+
+/** The part's transform at fullness 0..1 (0 = flat and drooping, 1 = full), around its anchor. */
+export function droopTransform(anchor: { x: number; y: number }, fullness: number, side: number): Transforms3d {
+  'worklet';
+  const f = Math.max(0, Math.min(1.08, fullness));
+  return [
+    { translateX: anchor.x },
+    { translateY: anchor.y },
+    { rotate: FLAT_DROOP * (1 - Math.min(1, f)) * side },
+    { scaleY: FLAT_SCALE_Y + (1 - FLAT_SCALE_Y) * f },
+    { scaleX: 1 + 0.04 * Math.max(0, f - 1) },
+    { translateX: -anchor.x },
+    { translateY: -anchor.y },
+  ];
+}
+
+/** How many cotton puffs a flat part needs (4–6, from the visit seed). */
+export function puffsNeeded(seed: number): number {
+  return 4 + (Math.abs(seed) % 3);
+}
