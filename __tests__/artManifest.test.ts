@@ -68,7 +68,8 @@ describe('art manifest', () => {
     const audio = fs.existsSync(path.join(ROOT, 'assets', 'audio'))
       ? walk(path.join(ROOT, 'assets', 'audio')).map((p) => path.relative(path.join(ROOT, 'assets'), p).split(path.sep).join('/'))
       : [];
-    const media = [...files, ...audio].filter((f) => /\.(png|m4a|mp3|wav)$/.test(f));
+    const app = fs.existsSync(path.join(ROOT, 'assets', 'app')) ? walk(path.join(ROOT, 'assets', 'app')).map((p) => path.relative(path.join(ROOT, 'assets'), p).split(path.sep).join('/')) : [];
+    const media = [...files, ...audio, ...app].filter((f) => /\.(png|m4a|mp3|wav)$/.test(f));
     const uncredited = media.filter((f) => !folders.some((d) => f.startsWith(d)));
     expect(uncredited).toEqual([]);
   });

@@ -24,7 +24,17 @@
         }
       ],
       "expo-screen-orientation",
-      "expo-iap"
-    ]
+      "expo-iap",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/app/splash.png",
+          "imageWidth": 220,
+          "resizeMode": "contain",
+          "backgroundColor": "#FFF4E6"
+        }
+      ]
+    ],
+    "icon": "./assets/app/icon.png"
   }
 }

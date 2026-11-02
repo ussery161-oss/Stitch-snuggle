@@ -33,3 +33,17 @@ Still to do in later phases: purchase/restore behind the gate (P2 mock, P3 Store
 | Stickers are earned only (no currency, no random rewards) | ✅ pass | `__tests__/stickers.test.tsx` |
 | Faith: verse and blessing only in the parent-area credits; in the child flow only the two approved charms (recovery wall, above the Showcase podium) | ✅ pass | `__tests__/recoveryCharm.test.tsx`, `__tests__/parentArea.test.tsx` |
 | No reading needed: Studio tabs, names and plaque are voiced; captions are a parent option (off by default) | ✅ pass | `__tests__/studio.test.tsx`, `__tests__/appShell.test.tsx` |
+
+## Phase 3 (branch `p3-ship`) — the App Store review list
+| Check | Result | Enforced by |
+|---|---|---|
+| No third-party analytics or ads SDKs (StoreKit via `expo-iap` is Apple's purchase API) | ✅ pass | `__tests__/kidsCategory.test.ts`, `__tests__/depsGuard.test.ts` |
+| App code makes no network calls; only `src/purchase/` loads the StoreKit module | ✅ pass | `__tests__/noNetwork.test.ts` |
+| The privacy label says **Data Not Collected** | ✅ ready (set in App Store Connect) | `docs-proposals/SUBMISSION_NOTES.md` |
+| Purchases (Unlock Everything, $5.99 `unlock_all`), Restore and settings only in the parent area, behind the gate | ✅ pass | `__tests__/parentArea.test.tsx`, `__tests__/kidsCategory.test.ts` |
+| No external links | ✅ pass | `__tests__/noNetwork.test.ts` (openURL, http(s)) |
+| Review notes explain the gate | ✅ ready | `docs-proposals/SUBMISSION_NOTES.md` |
+| Expo Go keeps working, with the mock purchase | ✅ pass | `__tests__/storePurchase.test.ts` |
+| No permission prompts in release builds: no usage keys in `app.json`; the dev launcher's local-network key is removed from Release builds by its own build phase | ✅ pass | `__tests__/appJson.test.ts`, `expo config --type introspect` |
+| Reduce Motion turns off the breathing, wiggles, hand-hint motion, waves and sticker flight | ✅ pass | `useReducedMotion` in every animated component |
+| VoiceOver: parent-area buttons have labels and sections are headers; decor (the charm) is hidden | ✅ pass | `__tests__/recoveryCharm.test.tsx`, parent screen |

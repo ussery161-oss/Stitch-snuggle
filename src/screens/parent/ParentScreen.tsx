@@ -39,7 +39,7 @@ export function ParentButton({ label, onPress, testID, selected, onLongPress }: 
 export function AgeSetting({ age, onChange }: { age: AgeBand; onChange: (a: AgeBand) => void }) {
   return (
     <View>
-      <Text style={styles.section}>Child’s age</Text>
+      <Text style={styles.section} accessibilityRole="header">Child’s age</Text>
       <Text style={styles.note}>Ages 3–5: up to 3 care steps per visit. Ages 6–7: up to 4.</Text>
       <View style={styles.row}>
         <ParentButton testID="age-3-5" label="Ages 3–5" selected={age === '3-5'} onPress={() => onChange('3-5')} />
@@ -106,7 +106,7 @@ export default function ParentScreen({ onClose, onDev, onPrivacy, onCredits, chi
         <ParentButton testID="parent-close" label="Done" onPress={onClose} />
       </View>
 
-      <Text style={styles.section}>Unlock Everything</Text>
+      <Text style={styles.section} accessibilityRole="header">Unlock Everything</Text>
       {save.entitlement.unlocked ? (
         <Text style={styles.note} testID="parent-unlocked">
           Everything is unlocked, including every future plushie. Thank you!
@@ -128,7 +128,7 @@ export default function ParentScreen({ onClose, onDev, onPrivacy, onCredits, chi
 
       {children}
 
-      <Text style={styles.section}>Sound and display</Text>
+      <Text style={styles.section} accessibilityRole="header">Sound and display</Text>
       <Volume label="Music" value={settings.music} onChange={(music) => setSettings({ music })} testID="music" />
       <Volume label="Sound effects" value={settings.sfx} onChange={(sfx) => setSettings({ sfx })} testID="sfx" />
       <View style={styles.row}>
@@ -142,7 +142,7 @@ export default function ParentScreen({ onClose, onDev, onPrivacy, onCredits, chi
         <ParentButton testID="tray-left" label="Left (left-handed)" selected={settings.traySide === 'left'} onPress={() => setSettings({ traySide: 'left' })} />
       </View>
 
-      <Text style={styles.section}>Saved plushies</Text>
+      <Text style={styles.section} accessibilityRole="header">Saved plushies</Text>
       <Text style={styles.note}>Press and hold a plushie’s Delete button for 1.5 seconds to delete it.</Text>
       <View style={styles.grid}>
         {save.creations.map((c) => (
@@ -154,19 +154,19 @@ export default function ParentScreen({ onClose, onDev, onPrivacy, onCredits, chi
         {save.creations.length === 0 ? <Text style={styles.note}>None yet.</Text> : null}
       </View>
 
-      <Text style={styles.section}>Reset progress</Text>
+      <Text style={styles.section} accessibilityRole="header">Reset progress</Text>
       <Text style={styles.note}>Removes all stickers and the Showcase Room arrangement. Saved plushies and the purchase stay. Press and hold for 1.5 seconds.</Text>
       <View style={styles.row}>
         <ParentButton testID="parent-reset" label="Reset progress" onLongPress={() => saveStore.update((s) => ({ ...s, stickers: {}, placements: [], showcase: emptyShowcase() }))} />
       </View>
 
-      <Text style={styles.section}>About</Text>
+      <Text style={styles.section} accessibilityRole="header">About</Text>
       <View style={styles.row}>
         {onPrivacy ? <ParentButton testID="parent-privacy" label="Privacy" onPress={onPrivacy} /> : null}
         {onCredits ? <ParentButton testID="parent-credits" label="Credits" onPress={onCredits} /> : null}
       </View>
 
-      <Text style={styles.section}>Developer</Text>
+      <Text style={styles.section} accessibilityRole="header">Developer</Text>
       <View style={styles.row}>
         <ParentButton testID="parent-dev" label="Plush test screen" onPress={onDev} />
         {__DEV__ && mock && save.entitlement.unlocked ? <ParentButton testID="parent-relock" label="Lock again (test)" onPress={() => mock.relock()} /> : null}

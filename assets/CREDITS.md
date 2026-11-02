@@ -28,6 +28,11 @@ Every file under each folder below comes from the set named. `__tests__/artManif
 | `art/ui/stickers/` | r02 |
 | `art/ui/basket.png` | r02 |
 
+## App icon and launch image
+| Folder | Source |
+|---|---|
+| `app/` | Placeholder composited in code (`npm run gen:icon`) from the r02/r03 Bear art above; replaced by `art/ui/app_icon.png` when the Art Director delivers it |
+
 ## Audio files by folder
 | Folder | Source |
 |---|---|

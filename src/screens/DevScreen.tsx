@@ -21,7 +21,7 @@ export const DEV_GRID: readonly { base: BaseId; body: BodyType }[] = [
   { base: 'bunny', body: 'tiny' },
 ];
 
-export default function DevScreen({ onBack, seed }: { onBack: () => void; seed?: number }) {
+export default function DevScreen({ onBack, onScreenshots, seed }: { onBack: () => void; onScreenshots?: () => void; seed?: number }) {
   const rng = useMemo(() => createRng(seed ?? randomSeed()), [seed]);
   const [specs, setSpecs] = useState<PlushSpec[]>(() => DEV_GRID.map((g) => randomSpec(rng, g.base, g.body)));
   const { width, height } = useLayout();
@@ -50,6 +50,11 @@ export default function DevScreen({ onBack, seed }: { onBack: () => void; seed?:
       ))}
       <View style={[styles.bar, { top: insets.top + 10, right: insets.right + 10 }]}>
         <FpsMeter />
+        {onScreenshots ? (
+          <Pressable testID="dev-screenshots" onPress={onScreenshots} style={styles.back} accessibilityRole="button" accessibilityLabel="Screenshot scenes">
+            <Text style={styles.backText}>Screenshots</Text>
+          </Pressable>
+        ) : null}
         <Pressable testID="dev-back" onPress={onBack} style={styles.back} accessibilityRole="button" accessibilityLabel="Back">
           <Text style={styles.backText}>Back</Text>
         </Pressable>

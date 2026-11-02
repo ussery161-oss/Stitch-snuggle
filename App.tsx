@@ -11,6 +11,7 @@ import { initialRoute, routeReducer } from './src/logic/router';
 import { playablePresets } from './src/content/presets';
 import { DEMO } from './src/logic/entitlements';
 import DevScreen from './src/screens/DevScreen';
+import ScreenshotScreen from './src/screens/ScreenshotScreen';
 import CreditsScreen from './src/screens/parent/CreditsScreen';
 import ParentScreen, { AgeSetting } from './src/screens/parent/ParentScreen';
 import PrivacyScreen from './src/screens/parent/PrivacyScreen';
@@ -125,7 +126,10 @@ export default function App() {
       screen = <CreditsScreen onBack={() => dispatch({ type: 'parentNav', screen: 'parent' })} />;
       break;
     case 'dev':
-      screen = <DevScreen onBack={() => dispatch({ type: 'parentNav', screen: 'parent' })} />;
+      screen = <DevScreen onBack={() => dispatch({ type: 'parentNav', screen: 'parent' })} onScreenshots={() => dispatch({ type: 'parentNav', screen: 'screenshots' })} />;
+      break;
+    case 'screenshots':
+      screen = <ScreenshotScreen onBack={() => dispatch({ type: 'parentNav', screen: 'dev' })} />;
       break;
   }
 
