@@ -17,3 +17,13 @@ jest.mock('expo-screen-orientation', () => ({
 // animations jump to their end value).
 jest.mock('react-native-worklets', () => require('react-native-worklets/lib/module/mock'));
 jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'));
+jest.mock('expo-audio', () => ({
+  createAudioPlayer: jest.fn(() => ({
+    replace: jest.fn(),
+    play: jest.fn(),
+    pause: jest.fn(),
+    isLoaded: false,
+    addListener: jest.fn(() => ({ remove: jest.fn() })),
+  })),
+  setAudioModeAsync: jest.fn(() => Promise.resolve()),
+}));
