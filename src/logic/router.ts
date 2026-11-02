@@ -2,7 +2,7 @@
 // (parent, dev) are only reachable through the parental gate. Pure TypeScript.
 
 export type ChildScreen = 'title' | 'clinic' | 'studio' | 'stickers';
-export type GatedScreen = 'parent' | 'dev';
+export type GatedScreen = 'parent' | 'dev' | 'privacy' | 'credits';
 export type Screen = ChildScreen | GatedScreen | 'gate';
 
 export interface RouteState {
@@ -22,7 +22,7 @@ export type RouteAction =
 
 export const initialRoute: RouteState = { screen: 'title', gateTarget: null };
 
-const GATED: readonly Screen[] = ['parent', 'dev'];
+const GATED: readonly Screen[] = ['parent', 'dev', 'privacy', 'credits'];
 
 export function isGated(screen: Screen): boolean {
   return GATED.includes(screen);

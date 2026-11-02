@@ -11,7 +11,9 @@ import { initialRoute, routeReducer } from './src/logic/router';
 import { playablePresets } from './src/content/presets';
 import { DEMO } from './src/logic/entitlements';
 import DevScreen from './src/screens/DevScreen';
-import ParentScreen, { AgeSetting } from './src/screens/ParentScreen';
+import CreditsScreen from './src/screens/parent/CreditsScreen';
+import ParentScreen, { AgeSetting } from './src/screens/parent/ParentScreen';
+import PrivacyScreen from './src/screens/parent/PrivacyScreen';
 import { saveStore, useSave } from './src/storage/useSave';
 import type { AgeBand } from './src/clinic/visit';
 import TitleHero from './src/screens/TitleHero';
@@ -93,10 +95,21 @@ export default function App() {
       break;
     case 'parent':
       screen = (
-        <ParentScreen onClose={home} onDev={() => dispatch({ type: 'parentNav', screen: 'dev' })}>
+        <ParentScreen
+          onClose={home}
+          onDev={() => dispatch({ type: 'parentNav', screen: 'dev' })}
+          onPrivacy={() => dispatch({ type: 'parentNav', screen: 'privacy' })}
+          onCredits={() => dispatch({ type: 'parentNav', screen: 'credits' })}
+        >
           <AgeSetting age={settings.age} onChange={changeAge} />
         </ParentScreen>
       );
+      break;
+    case 'privacy':
+      screen = <PrivacyScreen onBack={() => dispatch({ type: 'parentNav', screen: 'parent' })} />;
+      break;
+    case 'credits':
+      screen = <CreditsScreen onBack={() => dispatch({ type: 'parentNav', screen: 'parent' })} />;
       break;
     case 'dev':
       screen = <DevScreen onBack={() => dispatch({ type: 'parentNav', screen: 'parent' })} />;
